@@ -44,17 +44,17 @@ def login(username, password):
 
 # Streamlit app layout
 
+with st.form("Login"):
+    st.title('Login Form')
 
-st.title('Login Form')
-
-# Input fields for username and password
-username = st.text_input('Username')
-password = st.text_input('Password', type='password')
-
-# Login button
-if st.button('Login'):
-    if login(username, password):
-        st.success('Logged in successfully!')
-        # Add your redirect or logic after successful login here
-    else:
-        st.error('Invalid username or password.')
+    # Input fields for username and password
+    username = st.text_input('Username')
+    password = st.text_input('Password', type='password')
+    submitted = st.form_submit_button("Login")
+    if submitted:
+        
+        if login(username, password):
+            st.success('Logged in successfully!')
+            # Add your redirect or logic after successful login here
+        else:
+            st.error('Invalid username or password.')
