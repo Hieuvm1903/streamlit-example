@@ -15,16 +15,26 @@ import streamlit as st
 @st.cache_resource
 def init_connection():
     return pyodbc.connect(
-        Trusted_Connection="Yes",
-        Driver='{ODBC Driver 17 for SQL Server}',
-    Server=st.secrets.servers.Server,
-    Database=st.secrets.servers.Database
+        
+        Driver='{SQL Server}',
+    Server='mssql-132219-0.cloudclusters.net,10005',
+    Database='BKLIGHT',
+    uid = 'EVOL',
+    pwd = 'Evolut10n',
+    
     )
 
 conn = init_connection()
 
 
-cursor = conn.cursor()
-cursor.execute("SELECT * FROM account")
-rows = cursor.fetchall()
-st.write(rows[0])
+@st.cache_data(ttl=600)
+def run_query(query):
+    with conn.cursor() as cur:
+        cur.execute(query)
+        return cur.fetchall()
+
+rows = run_query("SELECT * from account;")
+
+# Print results.
+for row in rows:
+    st.write(f"{row[0]} has a :{row[1]}:")
