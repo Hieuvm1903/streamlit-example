@@ -1,3 +1,4 @@
 altair
 pandas
 streamlit
+pyodbc == 3.0.10
