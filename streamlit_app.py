@@ -16,7 +16,7 @@ import streamlit as st
 def init_connection():
     return pyodbc.connect(
         
-        Driver='{SQL Server}',
+        Driver='{ODBC Driver 17 for SQL Server}',
     Server='mssql-132219-0.cloudclusters.net,10005',
     Database='BKLIGHT',
     uid = 'EVOL',
