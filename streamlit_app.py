@@ -16,11 +16,7 @@ import streamlit as st
 def init_connection():
     return pyodbc.connect(
         
-<<<<<<< HEAD
     Driver='{ODBC Driver 17 for SQL Server}',
-=======
-        Driver='{ODBC Driver 17 for SQL Server}',
->>>>>>> 5798e1a531d05670f8055ddd1f51c6386c7a6bc1
     Server='mssql-132219-0.cloudclusters.net,10005',
     Database='BKLIGHT',
     uid = 'EVOL',
@@ -37,11 +33,9 @@ def run_query(query):
         cur.execute(query)
         return cur.fetchall()
 
-rows = run_query("select * from dbo.account where username = 'hieuvm1903'")
-st.write(rows)
+
 
 # Print results.
-<<<<<<< HEAD
 def login(username, password):
     if run_query("SELECT * FROM dbo.account WHERE dbo.account.username = '" +username+"' AND dbo.account.password = '"+password+"'"):
                 
@@ -64,7 +58,3 @@ if st.button('Login'):
         # Add your redirect or logic after successful login here
     else:
         st.error('Invalid username or password.')
-=======
-for row in rows:
-    st.write(f"{row[0]} has a :{row[1]}:")
->>>>>>> 5798e1a531d05670f8055ddd1f51c6386c7a6bc1
