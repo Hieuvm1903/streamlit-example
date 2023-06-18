@@ -2,7 +2,7 @@
 import pyodbc 
 # Some other example server values are
 # server = 'localhost\sqlexpress' # for a named instance
-
+import streamlit as st
 conn =  pyodbc.connect(
     Trusted_Connection='Yes',
     Driver='{ODBC Driver 17 for SQL Server}',
@@ -12,4 +12,4 @@ conn =  pyodbc.connect(
 cursor = conn.cursor()
 cursor.execute("SELECT * FROM account")
 rows = cursor.fetchall()
-print(rows[0][0])
+st.write(rows[0][0])
