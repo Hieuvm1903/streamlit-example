@@ -15,10 +15,10 @@ import streamlit as st
 @st.cache_resource
 def init_connection():
     return pyodbc.connect(
-        Trusted_Connection=st.secrets["Trusted"],
+        Trusted_Connection="Yes",
         Driver='{ODBC Driver 17 for SQL Server}',
-    Server=st.secrets["Server"],
-    Database=st.secrets["Database"]
+    Server=st.secrets.servers.Server,
+    Database=st.secrets.servers.Database
     )
 
 conn = init_connection()
