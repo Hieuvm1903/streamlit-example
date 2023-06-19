@@ -14,9 +14,21 @@ hide_streamlit_style = """
             header {visibility: hidden;}
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
+            footer:after {
+	content:'Made by EVOL'; 
+	visibility: visible;
+	display: block;
+	position: relative;
+	#background-color: red;
+	padding: 5px;
+	top: 2px;
+}
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
+
+
 @st.cache_resource
 def init_connection():
     return pyodbc.connect(       
