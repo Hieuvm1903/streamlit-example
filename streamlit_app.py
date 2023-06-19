@@ -11,6 +11,7 @@ import streamlit as st
 
 hide_streamlit_style = """
             <style>
+            header {visibility: hidden;}
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             </style>
