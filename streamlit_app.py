@@ -9,7 +9,13 @@ import streamlit as st
 #    Database='BKLIGHT'
 #)
 
-
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 @st.cache_resource
 def init_connection():
     return pyodbc.connect(       
