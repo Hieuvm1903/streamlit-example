@@ -1,7 +1,5 @@
 
 import pyodbc 
-# Some other example server values are
-# server = 'localhost\sqlexpress' # for a named instance
 import streamlit as st
 
 #conn =  pyodbc.connect(
@@ -14,8 +12,7 @@ import streamlit as st
 
 @st.cache_resource
 def init_connection():
-    return pyodbc.connect(
-        
+    return pyodbc.connect(       
     Driver='{ODBC Driver 17 for SQL Server}',
     Server='mssql-132219-0.cloudclusters.net,10005',
     Database='BKLIGHT',
@@ -23,19 +20,16 @@ def init_connection():
     pwd = 'Evolut10n',
     
     )
-
 conn = init_connection()
-
 
 @st.cache_data(ttl=600)
 def run_query(query):
     with conn.cursor() as cur:
         cur.execute(query)
         return cur.fetchall()
-
-
-
 # Print results.
+st.write(run_query("SELECT * FROM dbo.account "))
+
 def login(username, password):
     if run_query("SELECT * FROM dbo.account WHERE dbo.account.username = '" +username+"' AND dbo.account.password = '"+password+"'"):
                 
