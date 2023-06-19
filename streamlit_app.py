@@ -45,7 +45,7 @@ with st.form("Login"):
     username = st.text_input('Username')
     password = st.text_input('Password', type='password')
     submitted = st.form_submit_button("Login")
-    if submitted:
+    if (submitted or password) and username:
         
         if login(username, password):
             st.success('Logged in successfully!')
