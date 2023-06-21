@@ -48,7 +48,7 @@ def run_query(query):
         cur.execute(query)
         return cur.fetchall()
 # Print results.
-st.write(run_query("SELECT * FROM dbo.account "))
+st.write(run_query("SELECT * FROM dbo.account"))
 
 def login(username, password):
     if run_query("SELECT * FROM dbo.account WHERE dbo.account.username = '" +username+"' AND dbo.account.password = '"+password+"'"):
