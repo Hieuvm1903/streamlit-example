@@ -10,6 +10,9 @@ import pandas as pd
 from st_aggrid import AgGrid
 import plotly.express as px
 import io 
+import folium
+
+from streamlit_folium import st_folium, folium_static
 #conn =  pyodbc.connect(
 #    Trusted_Connection='Yes',
 #    Driver='{ODBC Driver 17 for SQL Server}',
@@ -130,26 +133,19 @@ if choose == "Home":
         st.markdown('<p style="text-align: center;">BKLIGHT</p>',unsafe_allow_html=True)      
 elif choose == "Devices":
     Lights = pd.DataFrame([[21.0043061,105.8373198],[21.0004175,105.839110],[20.9975346,105.844127]], columns= ['lat','lon'])
-    st.map(Lights) 
+    map_plot = folium.Map(location=[21.0043061,105.8373198],zoom_start=13)
+    folium_static(map_plot)
+    st.divider()  # 👈 Draws a horizontal rule
+
 elif choose == "Controls":
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.header("Lamp 1")
-        st.button(":arrow_left:", on_click=style_button_row, kwargs={
-       'clicked_button_ix': 1, 'n_buttons': 5 })
-        st.button(":bulb:", on_click=style_button_row, kwargs={
-       'clicked_button_ix': 2, 'n_buttons': 5 })
-        st.button(":arrow_right:", on_click=style_button_row, kwargs={
-       'clicked_button_ix': 3, 'n_buttons': 5 })
+        st.header("Lamp 1 :bulb:")
+        st.slider("brightness",min_value=0, max_value=100,value= 100,step = 5)
         st.button(":gear:", on_click=style_button_row, kwargs={
-       'clicked_button_ix': 4, 'n_buttons': 5 })
+       'clicked_button_ix': 1, 'n_buttons': 2 })
         st.button(":clock1:", on_click=style_button_row, kwargs={
-       'clicked_button_ix': 5, 'n_buttons': 5 })
-        
-        
-
-
-        
+       'clicked_button_ix': 2, 'n_buttons': 2 })
         st.metric("Temperature", "70 °F", "1.2 °F")
         st.metric("Wind", "9 mph", "-8%")
         st.metric("Humidity", "86%", "4%")
