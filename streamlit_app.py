@@ -179,6 +179,7 @@ elif choose == "Login":
                     st.success('Logged in successfully!')
                     st.experimental_rerun()
             else:
+                    st.title("Welcome")
                     logout = st.form_submit_button("Logout")
                     if logout:
                         st.session_state.user = False
