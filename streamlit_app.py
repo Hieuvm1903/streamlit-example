@@ -134,34 +134,52 @@ if choose == "Home":
 elif choose == "Devices":
     Lights = pd.DataFrame([[21.0043061,105.8373198],[21.0004175,105.839110],[20.9975346,105.844127]], columns= ['lat','lon'])
     map_plot = folium.Map(location=[21.0043061,105.8373198],zoom_start=13)
+    folium.TileLayer('cartodbpositron').add_to(map_plot)
+
+    for i in range(Lights.shape[0]):
+        folium.CircleMarker([Lights.lat.iloc[i],Lights.lon.iloc[i]],radius = 5,color = '#a6cee3',fill = '#a6cee3' ).add_to(map_plot)
+    
     folium_static(map_plot)
     st.divider()  # 👈 Draws a horizontal rule
 
 elif choose == "Controls":
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.header("Lamp 1 :bulb:")
-        st.slider("brightness",min_value=0, max_value=100,value= 100,step = 5)
+        st.header("Lamp 1a :bulb:")
+        st.slider("brightness",min_value=0, max_value=100,value= 100,step = 5, key = 0)
         st.button(":gear:", on_click=style_button_row, kwargs={
-       'clicked_button_ix': 1, 'n_buttons': 2 })
+       'clicked_button_ix': 1, 'n_buttons': 6 },key = 1)
         st.button(":clock1:", on_click=style_button_row, kwargs={
-       'clicked_button_ix': 2, 'n_buttons': 2 })
+       'clicked_button_ix': 2, 'n_buttons': 6 },key = 2)
+        st.metric("Temperature", "72 °F", "1.5 °F")
+        st.metric("Wind", "9 mph", "-5%")
+        st.metric("Humidity", "86%", "6%")
+        
+
+    with col2:
+        st.header("Lamp 2 :bulb:")
+        st.slider("brightness",min_value=0, max_value=100,value= 100,step = 5, key = 'sl2')
+        st.button(":gear:", on_click=style_button_row, kwargs={
+       'clicked_button_ix': 3, 'n_buttons': 6 },key = 3)
+        st.button(":clock1:", on_click=style_button_row, kwargs={
+       'clicked_button_ix': 4, 'n_buttons': 6 },key = 4)
         st.metric("Temperature", "70 °F", "1.2 °F")
         st.metric("Wind", "9 mph", "-8%")
         st.metric("Humidity", "86%", "4%")
         
 
-    with col2:
-        st.header("Lamp 2")
-        st.button("◀", on_click=style_button_row, kwargs={
-       'clicked_button_ix': 3, 'n_buttons': 4 })
-        
-
     
 
     with col3:
-        st.header("Lamp 3")
-        st.image("https://static.streamlit.io/examples/owl.jpg")
+        st.header("Lamp 3 :bulb:")
+        st.slider("brightness",min_value=0, max_value=100,value= 100,step = 5,key = 'st3')
+        st.button(":gear:", on_click=style_button_row, kwargs={
+       'clicked_button_ix': 5, 'n_buttons': 6 },key = 5)
+        st.button(":clock1:", on_click=style_button_row, kwargs={
+       'clicked_button_ix': 6, 'n_buttons': 6 }, key =6)
+        st.metric("Temperature", "71 °F", "1.2 °F")
+        st.metric("Wind", "9 mph", "-7%")
+        st.metric("Humidity", "86%", "5%")
 elif choose == "Login":   
         
         with st.form("Login"):
