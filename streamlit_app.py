@@ -203,7 +203,17 @@ elif choose == "Login":
                         st.session_state.user = False
                         st.experimental_rerun()
 
-                    
+
+import supabase as sb
+from supabase import create_client, Client
+
+url= "https://uzgwhrmgbnvebgshvkfi.supabase.co"
+key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6Z3docm1nYm52ZWJnc2h2a2ZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODgwNjU5NTgsImV4cCI6MjAwMzY0MTk1OH0.QogXPI4YOBnZTYTHeM5b1Zurnuu-VYsXmhRBssMW47c"
+supabase = create_client(url, key)
+
+
+response = supabase.table('Account').select("*").execute()
+st.write(response)
             
                        
 
