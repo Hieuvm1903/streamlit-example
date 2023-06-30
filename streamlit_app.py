@@ -46,28 +46,29 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 #)
 
 @st.cache_resource
-def init_connection():
-    return pyodbc.connect(
-    Trusted_Connection='Yes',
-    Driver='{ODBC Driver 17 for SQL Server}',
-    Server='EVOL',
-    Database='BKLIGHT'
-)
-  #  return pyodbc.connect(       
- #   Driver='{ODBC Driver 17 for SQL Server}',
- #   Server='mssql-132219-0.cloudclusters.net,10005',
-#    Database='BKLIGHT',
- #   uid = 'EVOL',
-#    pwd = 'Evolut10n',
- #   
-#    )
-conn = init_connection()
 
-def run_query(query):
-    with conn.cursor() as cur:
-        cur.execute(query)
-        return cur.fetchall()
-# Print results.
+# def init_connection():
+#     return pyodbc.connect(
+#     Trusted_Connection='Yes',
+#     Driver='{ODBC Driver 17 for SQL Server}',
+#     Server='EVOL',
+#     Database='BKLIGHT'
+# )
+#   #  return pyodbc.connect(       
+#  #   Driver='{ODBC Driver 17 for SQL Server}',
+#  #   Server='mssql-132219-0.cloudclusters.net,10005',
+# #    Database='BKLIGHT',
+#  #   uid = 'EVOL',
+# #    pwd = 'Evolut10n',
+#  #   
+# #    )
+# conn = init_connection()
+
+# def run_query(query):
+#     with conn.cursor() as cur:
+#         cur.execute(query)
+#         return cur.fetchall()
+# # Print results.
 
 def style_button_row(clicked_button_ix, n_buttons):
     def get_button_indices(button_ix):
@@ -102,11 +103,11 @@ def style_button_row(clicked_button_ix, n_buttons):
         else:
             style += unclicked_style % get_button_indices(ix)
     st.markdown(f"<style>{style}</style>", unsafe_allow_html=True)
-def login(username, password):
-    if run_query("SELECT * FROM dbo.account WHERE dbo.account.username = '" +username+"' AND dbo.account.password = '"+password+"'"):
+# def login(username, password):
+#     if run_query("SELECT * FROM dbo.account WHERE dbo.account.username = '" +username+"' AND dbo.account.password = '"+password+"'"):
                 
-        return True
-    return False
+#         return True
+#     return False 
 
 # Streamlit app layout
 
@@ -179,28 +180,28 @@ elif choose == "Controls":
         st.metric("Temperature", "71 °F", "1.2 °F")
         st.metric("Wind", "9 mph", "-7%")
         st.metric("Humidity", "86%", "5%")
-elif choose == "Login":   
+# elif choose == "Login":   
         
-        with st.form("Login"):
+#         with st.form("Login"):
             
-            if not st.session_state.user:
-                st.title('Login Form')
+#             if not st.session_state.user:
+#                 st.title('Login Form')
 
-                # Input fields for username and password
-                username = st.text_input('Username')
-                password = st.text_input('Password', type='password')
-                submitted = st.form_submit_button("Login")
-                if (submitted or password) and username:
+#                 # Input fields for username and password
+#                 username = st.text_input('Username')
+#                 password = st.text_input('Password', type='password')
+#                 submitted = st.form_submit_button("Login")
+#                 if (submitted or password) and username:
                     
-                    st.session_state.user = login(username, password)
-                    st.success('Logged in successfully!')
-                    st.experimental_rerun()
-            else:
-                    st.title("Welcome")
-                    logout = st.form_submit_button("Logout")
-                    if logout:
-                        st.session_state.user = False
-                        st.experimental_rerun()
+#                     st.session_state.user = login(username, password)
+#                     st.success('Logged in successfully!')
+#                     st.experimental_rerun()
+#             else:
+#                     st.title("Welcome")
+#                     logout = st.form_submit_button("Logout")
+#                     if logout:
+#                         st.session_state.user = False
+#                         st.experimental_rerun()
 
 
 import supabase as sb
