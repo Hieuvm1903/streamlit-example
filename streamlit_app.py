@@ -6,11 +6,10 @@ import streamlit.components.v1 as html
 from  PIL import Image
 import numpy as np
 import pandas as pd
-#from st_aggrid import AgGrid
 import plotly.express as px
-#import io 
 import folium
-
+import supabase as sb
+from supabase import create_client, Client
 from streamlit_folium import st_folium, folium_static
 #conn =  pyodbc.connect(
 #    Trusted_Connection='Yes',
@@ -18,8 +17,41 @@ from streamlit_folium import st_folium, folium_static
 #    Server='EVOL',
 #    Database='BKLIGHT'
 #)
-
-
+#conn =  pyodbc.connect(
+#    Trusted_Connection='Yes',
+#    Driver='{ODBC Driver 17 for SQL Server}',
+#    Server='EVOL',
+#    Database='BKLIGHT'
+#)
+# def init_connection():
+#     return pyodbc.connect(
+#     Trusted_Connection='Yes',
+#     Driver='{ODBC Driver 17 for SQL Server}',
+#     Server='EVOL',
+#     Database='BKLIGHT'
+# )
+# def init_connection():
+#    return pyodbc.connect(       
+#    Driver='{ODBC Driver 17 for SQL Server}',
+#    Server='mssql-132219-0.cloudclusters.net,10005',
+#    Database='BKLIGHT',
+#    uid = 'EVOL',
+#    pwd = 'Evolut10n',   
+#    )
+# conn = init_connection()
+# def run_query(query):
+#     with conn.cursor() as cur:
+#         cur.execute(query)
+#         return cur.fetchall()
+# # Print results.
+# def login(username, password):
+#     if run_query("SELECT * FROM dbo.account WHERE dbo.account.username = '" +username+"' AND dbo.account.password = '"+password+"'"):               
+#         return True
+#     return False 
+#Streamlit app layout
+url= "https://uzgwhrmgbnvebgshvkfi.supabase.co"
+key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6Z3docm1nYm52ZWJnc2h2a2ZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODgwNjU5NTgsImV4cCI6MjAwMzY0MTk1OH0.QogXPI4YOBnZTYTHeM5b1Zurnuu-VYsXmhRBssMW47c"
+supabase = create_client(url, key)
 hide_streamlit_style = """
             <style>
             header {visibility: hidden;}
@@ -37,39 +69,7 @@ hide_streamlit_style = """
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
-
-#conn =  pyodbc.connect(
-#    Trusted_Connection='Yes',
-#    Driver='{ODBC Driver 17 for SQL Server}',
-#    Server='EVOL',
-#    Database='BKLIGHT'
-#)
-
 @st.cache_resource
-
-# def init_connection():
-#     return pyodbc.connect(
-#     Trusted_Connection='Yes',
-#     Driver='{ODBC Driver 17 for SQL Server}',
-#     Server='EVOL',
-#     Database='BKLIGHT'
-# )
-#   #  return pyodbc.connect(       
-#  #   Driver='{ODBC Driver 17 for SQL Server}',
-#  #   Server='mssql-132219-0.cloudclusters.net,10005',
-# #    Database='BKLIGHT',
-#  #   uid = 'EVOL',
-# #    pwd = 'Evolut10n',
-#  #   
-# #    )
-# conn = init_connection()
-
-# def run_query(query):
-#     with conn.cursor() as cur:
-#         cur.execute(query)
-#         return cur.fetchall()
-# # Print results.
-
 def style_button_row(clicked_button_ix, n_buttons):
     def get_button_indices(button_ix):
         return {
@@ -103,15 +103,12 @@ def style_button_row(clicked_button_ix, n_buttons):
         else:
             style += unclicked_style % get_button_indices(ix)
     st.markdown(f"<style>{style}</style>", unsafe_allow_html=True)
-# def login(username, password):
-#     if run_query("SELECT * FROM dbo.account WHERE dbo.account.username = '" +username+"' AND dbo.account.password = '"+password+"'"):
-                
-#         return True
-#     return False 
-
-# Streamlit app layout
-
-
+def login(username, password):
+    if pd.DataFrame(supabase.table('Account').select("*").eq('user',username).eq('password',password).execute().data).empty:
+        name = ""
+        return False, name
+    name = pd.DataFrame(supabase.table('Account').select("*").eq('user',username).eq('password',password).execute().data).user[0]
+    return True, name
 with st.sidebar:
     choose = option_menu("BKLIGHT", ["Home", "Devices", "Controls", "Notifications", "Login"],
                          icons=['house', 'lightbulb', 'menu-button', 'bell','door-open'],
@@ -125,6 +122,8 @@ with st.sidebar:
     )
 if 'user' not in st.session_state:
     st.session_state.user = False
+if 'username' not in st.session_state:
+    st.session_state.username = ""
 if choose == "Home":
     col1, col2 = st.columns( [0.5, 0.5])
     with col1:
@@ -141,7 +140,6 @@ elif choose == "Devices":
     
     folium_static(map_plot)
     st.divider()  # 👈 Draws a horizontal rule
-
 elif choose == "Controls":
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -180,40 +178,33 @@ elif choose == "Controls":
         st.metric("Temperature", "71 °F", "1.2 °F")
         st.metric("Wind", "9 mph", "-7%")
         st.metric("Humidity", "86%", "5%")
-# elif choose == "Login":   
-        
-#         with st.form("Login"):
-            
-#             if not st.session_state.user:
-#                 st.title('Login Form')
-
-#                 # Input fields for username and password
-#                 username = st.text_input('Username')
-#                 password = st.text_input('Password', type='password')
-#                 submitted = st.form_submit_button("Login")
-#                 if (submitted or password) and username:
-                    
-#                     st.session_state.user = login(username, password)
-#                     st.success('Logged in successfully!')
-#                     st.experimental_rerun()
-#             else:
-#                     st.title("Welcome")
-#                     logout = st.form_submit_button("Logout")
-#                     if logout:
-#                         st.session_state.user = False
-#                         st.experimental_rerun()
+elif choose == "Login":          
+        with st.form("Login"):            
+            if not st.session_state.user:
+                st.title('Login Form')
+                # Input fields for username and password
+                username = st.text_input('Username')
+                password = st.text_input('Password', type='password')
+                submitted = st.form_submit_button("Login")
+                if (submitted or password) and username:                    
+                    st.session_state.user = login(username, password)[0]
+                    st.session_state.username = login(username, password)[1]                    
+                    st.success('Logged in successfully!')
+                    st.experimental_rerun()
+            else:                    
+                    st.title("Welcome " +st.session_state.username)
+                    logout = st.form_submit_button("Logout")
+                    if logout:
+                        st.session_state.user = False
+                        st.session_state.username = ""
+                        st.experimental_rerun()
 
 
-import supabase as sb
-from supabase import create_client, Client
-
-url= "https://uzgwhrmgbnvebgshvkfi.supabase.co"
-key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6Z3docm1nYm52ZWJnc2h2a2ZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODgwNjU5NTgsImV4cCI6MjAwMzY0MTk1OH0.QogXPI4YOBnZTYTHeM5b1Zurnuu-VYsXmhRBssMW47c"
-supabase = create_client(url, key)
 
 
-response = supabase.table('Account').select("*").execute()
-st.write(response)
+
+
+
             
                        
 
