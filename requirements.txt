@@ -4,6 +4,6 @@ streamlit
 pyodbc == 3.0.10
 streamlit_folium
 folium
-st_aggrid == 0.2.3
+st_aggrid == 0.2.0
 streamlit_option_menu
 supabase
