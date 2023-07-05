@@ -69,7 +69,6 @@ hide_streamlit_style = """
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
-@st.cache_resource
 def style_button_row(clicked_button_ix, n_buttons):
     def get_button_indices(button_ix):
         return {
@@ -120,6 +119,7 @@ with st.sidebar:
         "nav-link-selected": {"background-color": "#02ab21"},
     }
     )
+
 if 'user' not in st.session_state:
     st.session_state.user = False
 if 'username' not in st.session_state:
@@ -187,10 +187,15 @@ elif choose == "Login":
                 password = st.text_input('Password', type='password')
                 submitted = st.form_submit_button("Login")
                 if (submitted or password) and username:                    
-                    st.session_state.user = login(username, password)[0]
-                    st.session_state.username = login(username, password)[1]                    
-                    st.success('Logged in successfully!')
-                    st.experimental_rerun()
+                   if login(username, password)[0]:
+                        st.session_state.user = True
+                        st.session_state.username = login(username, password)[1]                    
+                        st.success('Logged in successfully!')
+                        st.experimental_rerun()
+                   else:
+                       st.error("Invalid username or password!")
+                else:
+                    st.write("")
             else:                    
                     st.title("Welcome " +st.session_state.username)
                     logout = st.form_submit_button("Logout")
