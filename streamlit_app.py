@@ -119,7 +119,6 @@ with st.sidebar:
         "nav-link-selected": {"background-color": "#02ab21"},
     }
     )
-
 if 'user' not in st.session_state:
     st.session_state.user = False
 if 'username' not in st.session_state:
