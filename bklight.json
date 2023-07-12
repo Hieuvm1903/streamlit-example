@@ -1,0 +1,14 @@
+{
+    "type": "service_account",
+    "project_id": "test-bklight",
+    "private_key_id": "f02078667d64fa3e480e07e6c40931722cf31ee6",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQChH0YASZU/xFiK\njxTR/TaFhQGyWIM1qkFBtGxlxyvb6Jzam84Gn82u6NaJb7alLttzCKRNnf/uju4o\nb9s1ELOZWGeBneMwa8ybZ3emkNQHnQtjs0E3wHE+pNzSviIt/aDshDcL5q89eKBo\nMYZeqSdCpbo5jpVp9SWsy6yM41sxzn58XlnGZffZE8+7UP4Jl31AGhqC2f2J6yEE\ntlwbPow8+NNzF7SAEu6kpMlE4DczJsVFSr2SIm0K9u7Z/nFbMhixvj+raBZzfTjb\nlRX2XYoExNcUwZBMMFChcigv6UoKTLvvf25dgiqa3baJOVSJ4ZMm9z730sl5RkN0\nG4p5Oh6LAgMBAAECggEAN1WhuVyMDOvWSrPL/zg6vs1IoWMDoO0ZX0LjDWtDNVGk\nePGUZrMANSdS8r1ymTVH+bBImT1/lYLx6OJNguJ7A9mYJqw+R7Vl/iMhNQu9PeYh\n8Lox1j9ZxR1il1/kJi5aU5AuxYASxAZG9LG5h44JZTq8g6LjzpF6QGdsmbBFdAt+\np0xZ+i3QI7O510ODUIL8FYN3sIckhtads6OEA4qEhGJKtt9OirhyyoV0xRz3LC9L\nWZIwU4MH7U2NUdwDjF5VYl7zRFvhs7WYwvRJye8dB/aEgZkg6JY5kGw2ZINhTa3B\ns3sitvmo6XlaqRRlizKUwIKHytqmARd5snGSP956lQKBgQDXf3lISrtosJ2vnDlE\nb+BmQDMdBrl5zqj9JNivLWegk/oYgcGEbwp+HZqVzAZ2sy0bQP+6ORwrogKnHQ4M\nQRoX0pCdq+LIKCDSFpOR7tnR7sCIQ3ZP8AWbo8GzOupGa+VPtRpP979UrDKuEXZU\nptEKpzdzJTvOlW6UmJrqpF6k/wKBgQC/Z4xx2sFSFF7tgGvqE3tQEZDF5nbdga5+\ndDnJNyxGpb/8CjSll/fm0q93q3Hxqv32jcl51X9NyWlbYcXSucqj7sBJlDSZ3LM1\nQg0L05fohuW8JhAPpI4XVxR54pQctBORxVvIvpOG4DnNsv242A8Pk1CflyrDjBHX\nM66RPrlKdQKBgCjTfaa0gczTqQwcDL1qdJjqkMRvAbSR8nIDCQonD/rcDgWWj5MH\ndnVuJls6y/6w81q2dbxSFYQurVH7ry2jJ85blgpJBi3lbFJg9JQxLBMZqGAoZ8G9\nN1LFM21BPCEbT9ZJ+TItPZJNDUztAf4HnJLoGxk1dJ8usER2pOLPQR8BAoGBAI3A\nimrnr7SyEXujWEiLFRA/chCelfmGSUytlv5GNiw8JOrsRAE/gwEXl4vxFPn9wQgQ\nCd6JFzbsq3JZ/sAJiOHPt+jGMg6hPLd8q1zO3/n9rbaiGdL785+lhiyeeUKourWC\njG8ndOq2tRh6Lx3uJXlLiLIoqisYWT4fsHExGtjhAoGBAKa43sdYzPcJCWRpFchf\nDYbUh/ssx1iOW0tva5geTtvp04d3rhI2BsyhNZ8vRDpGDkti9Dmj3S/nFDBeE0ZX\nVR0rxsGNrjM86/R6DR623mIqDI0Z6DaeVXRg9Z9Yi5NWoCEirJxIGGUAJoB6eKNa\nyCvM39Kasz3a+hUEUtuoMXfo\n-----END PRIVATE KEY-----\n",
+    "client_email": "node-red@test-bklight.iam.gserviceaccount.com",
+    "client_id": "100362025659748953339",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/node-red%40test-bklight.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }
+  

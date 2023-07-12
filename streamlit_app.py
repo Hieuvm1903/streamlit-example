@@ -49,6 +49,22 @@ from streamlit_folium import st_folium, folium_static
 #         return True
 #     return False 
 #Streamlit app layout
+class Light:
+    def __init__(self, id, status):
+        self.id = id
+        self.status = status
+
+    
+Light1 = Light(1,"on")
+
+sheet_id = "1XqOtPkiE_Q0dfGSoyxrH730RkwrTczcRbDeJJpqRByQ"
+sheet_name ="sample_1"
+#url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={sheet_name}"
+urlsheet = "https://docs.google.com/spreadsheets/d/1zu6W388L9CaLzzrbQtkgbQQwj0-CmwiEO1hwvF4D4m0/edit#gid=0"
+url_1 = urlsheet.replace('/edit#gid=', '/export?format=csv&gid=')
+sheetbase = pd.read_csv(url_1)
+
+
 url= "https://uzgwhrmgbnvebgshvkfi.supabase.co"
 key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6Z3docm1nYm52ZWJnc2h2a2ZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODgwNjU5NTgsImV4cCI6MjAwMzY0MTk1OH0.QogXPI4YOBnZTYTHeM5b1Zurnuu-VYsXmhRBssMW47c"
 supabase = create_client(url, key)
@@ -70,6 +86,7 @@ hide_streamlit_style = """
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 def style_button_row(clicked_button_ix, n_buttons):
+
     def get_button_indices(button_ix):
         return {
             'nth_child': button_ix,
@@ -102,6 +119,7 @@ def style_button_row(clicked_button_ix, n_buttons):
         else:
             style += unclicked_style % get_button_indices(ix)
     st.markdown(f"<style>{style}</style>", unsafe_allow_html=True)
+@st.cache_resource
 def login(username, password):
     if pd.DataFrame(supabase.table('Account').select("*").eq('user',username).eq('password',password).execute().data).empty:
         name = ""
@@ -129,6 +147,7 @@ if choose == "Home":
         st.markdown('<p style="text-align: center;">Introduce</p>',unsafe_allow_html=True)
     with col2:
         st.markdown('<p style="text-align: center;">BKLIGHT</p>',unsafe_allow_html=True)      
+    st.write(sheetbase)
 elif choose == "Devices":
     Lights = pd.DataFrame([[21.0043061,105.8373198],[21.0004175,105.839110],[20.9975346,105.844127]], columns= ['lat','lon'])
     map_plot = folium.Map(location=[21.0043061,105.8373198],zoom_start=13)
@@ -186,15 +205,10 @@ elif choose == "Login":
                 password = st.text_input('Password', type='password')
                 submitted = st.form_submit_button("Login")
                 if (submitted or password) and username:                    
-                   if login(username, password)[0]:
-                        st.session_state.user = True
-                        st.session_state.username = login(username, password)[1]                    
-                        st.success('Logged in successfully!')
-                        st.experimental_rerun()
-                   else:
-                       st.error("Invalid username or password!")
-                else:
-                    st.write("")
+                    st.session_state.user = login(username, password)[0]
+                    st.session_state.username = login(username, password)[1]                    
+                    st.success('Logged in successfully!')
+                    st.experimental_rerun()
             else:                    
                     st.title("Welcome " +st.session_state.username)
                     logout = st.form_submit_button("Logout")
