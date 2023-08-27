@@ -11,6 +11,11 @@ import folium
 import supabase as sb
 from supabase import create_client, Client
 from streamlit_folium import st_folium, folium_static
+import noti
+from encript import *
+from light import Light_Street
+import map
+from map import *
 #conn =  pyodbc.connect(
 #    Trusted_Connection='Yes',
 #    Driver='{ODBC Driver 17 for SQL Server}',
@@ -49,17 +54,10 @@ from streamlit_folium import st_folium, folium_static
 #         return True
 #     return False 
 #Streamlit app layout
-class Light:
-    def __init__(self, id, status):
-        self.id = id
-        self.status = status
 
-    
-Light1 = Light(1,"on")
 
 sheet_id = "1XqOtPkiE_Q0dfGSoyxrH730RkwrTczcRbDeJJpqRByQ"
 sheet_name ="sample_1"
-#url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={sheet_name}"
 urlsheet = "https://docs.google.com/spreadsheets/d/1zu6W388L9CaLzzrbQtkgbQQwj0-CmwiEO1hwvF4D4m0/edit#gid=0"
 url_1 = urlsheet.replace('/edit#gid=', '/export?format=csv&gid=')
 sheetbase = pd.read_csv(url_1)
@@ -85,6 +83,11 @@ hide_streamlit_style = """
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
+    
+
+
+
 def style_button_row(clicked_button_ix, n_buttons):
 
     def get_button_indices(button_ix):
@@ -119,13 +122,6 @@ def style_button_row(clicked_button_ix, n_buttons):
         else:
             style += unclicked_style % get_button_indices(ix)
     st.markdown(f"<style>{style}</style>", unsafe_allow_html=True)
-@st.cache_resource
-def login(username, password):
-    if pd.DataFrame(supabase.table('Account').select("*").eq('user',username).eq('password',password).execute().data).empty:
-        name = ""
-        return False, name
-    name = pd.DataFrame(supabase.table('Account').select("*").eq('user',username).eq('password',password).execute().data).user[0]
-    return True, name
 with st.sidebar:
     choose = option_menu("BKLIGHT", ["Home", "Devices", "Controls", "Notifications", "Login"],
                          icons=['house', 'lightbulb', 'menu-button', 'bell','door-open'],
@@ -145,19 +141,16 @@ if choose == "Home":
     col1, col2 = st.columns( [0.5, 0.5])
     with col1:
         st.markdown('<p style="text-align: center;">Introduce</p>',unsafe_allow_html=True)
+        
     with col2:
-        st.markdown('<p style="text-align: center;">BKLIGHT</p>',unsafe_allow_html=True)      
-    st.write(sheetbase)
-elif choose == "Devices":
-    Lights = pd.DataFrame([[21.0043061,105.8373198],[21.0004175,105.839110],[20.9975346,105.844127]], columns= ['lat','lon'])
-    map_plot = folium.Map(location=[21.0043061,105.8373198],zoom_start=13)
-    folium.TileLayer('cartodbpositron').add_to(map_plot)
-
-    for i in range(Lights.shape[0]):
-        folium.CircleMarker([Lights.lat.iloc[i],Lights.lon.iloc[i]],radius = 5,color = '#a6cee3',fill = '#a6cee3' ).add_to(map_plot)
+        st.markdown('<p style="text-align: center;">BKLIGHT</p>',unsafe_allow_html=True)  
+        st.write(sheetbase)    
     
-    folium_static(map_plot)
-    st.divider()  # 👈 Draws a horizontal rule
+elif choose == "Devices":
+    show()
+    
+    
+    
 elif choose == "Controls":
     col1, col2, col3 = st.columns(3)
     with col1:
