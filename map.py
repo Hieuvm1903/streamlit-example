@@ -43,7 +43,7 @@ for i in range(Lights.shape[0]):
     light_location = [Lights.lat.iloc[i],Lights.lon.iloc[i]]
     popup_content = "<strong>Street Light</strong><br>Location: {}, {}".format(Lights.lat.iloc[i], Lights.lon.iloc[i])
 
-    marker = folium.Marker(location=light_location, popup=popup_content,icon=folium.Icon(color='yellow', icon='lightbulb-on', prefix='fa'))
+    marker = folium.Marker(location=light_location, tooltip=popup_content,popup =popup_content, icon=folium.Icon(color='black', icon='lightbulb-cfl-on', prefix='fa'))
     marker.add_to(m)
 folium.TileLayer('cartodbpositron').add_to(m)
 
