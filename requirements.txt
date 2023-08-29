@@ -7,5 +7,4 @@ folium
 plotly
 streamlit_option_menu
 supabase
-encript
 paho-mqtt 
