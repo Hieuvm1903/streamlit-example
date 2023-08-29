@@ -3,9 +3,9 @@ import time
 import random
 import json
 import paho.mqtt.client as mqtt
+import ssl
 #broker_address ="0.tcp.ap.ngrok.io"
-broker_address = "test.mosquitto.org"
-port= 1883
+
 t=''
 def on_connect(client, userdata, flags, rc):
   if rc==0:
@@ -17,12 +17,22 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client,userdata,msg):
   print("da vao")
   print(msg.topic + ":" + str(msg.payload.decode("utf-8")))
-  
+
+
+ca_cert = "ca.crt"   
+broker_address = "xemdoan2408.duckdns.org"
+broker_port = 1234  # Default port for MQTT with TLS
+
+
 while True:
   client=mqtt.Client()
+  client.tls_set(ca_certs=ca_cert)
+
   client.on_connect = on_connect
   client.on_message = on_message
-  client.connect(broker_address,port=port)
+  client.connect(broker_address,port=broker_port)
+  client.publish("test_topic", "From HieuVM")
+
   
   
   #print(t)
