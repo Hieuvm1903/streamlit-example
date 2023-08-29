@@ -19,7 +19,7 @@ def on_message(client,userdata,msg):
   print(msg.topic + ":" + str(msg.payload.decode("utf-8")))
 
 
-ca_cert = "C:\Users\Admin\Documents\GitHub\streamlit-example\ca.crt"   
+ca_cert = "ca.crt"   
 broker_address = "xemdoan2408.duckdns.org"
 broker_port = 1234  # Default port for MQTT with TLS
 def test():
