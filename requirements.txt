@@ -7,4 +7,4 @@ folium
 plotly
 streamlit_option_menu
 supabase
-paho-mqtt 
+paho-mqtt == 1.5.1
