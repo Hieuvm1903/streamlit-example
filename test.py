@@ -4,9 +4,8 @@ from datetime import datetime
 import random
 
 
-mqttBroker = "0.tcp.ap.ngrok.io:18474"
-mqttBroker = "test.mosquitto.org"
-port = 1883
+mqttBroker = "xemdoan2408.duckdns.org"
+port = 1234
 client = mqtt.Client("Temperature_Inside")
 client.connect(mqttBroker,port)
 
@@ -17,6 +16,6 @@ while True:
     value = random.random()
     payload = "{},{},{}".format(device, timestamp, value)
 
-    client.publish("temp/esp32", "Duong an com")
+    client.publish("temp/esp32", "hieu vm")
     print(payload)
     time.sleep(2.0)
