@@ -19,24 +19,28 @@ def on_message(client,userdata,msg):
   print(msg.topic + ":" + str(msg.payload.decode("utf-8")))
 
 
-ca_cert = "ca.crt"   
+ca_cert = "C:\Users\Admin\Documents\GitHub\streamlit-example\ca.crt"   
 broker_address = "xemdoan2408.duckdns.org"
 broker_port = 1234  # Default port for MQTT with TLS
+def test():
+  while True:
+    client=mqtt.Client()
+    client.tls_set(ca_certs=ca_cert,tls_version=ssl.PROTOCOL_TLSv1_2)
+    client.tls_insecure_set(True)
+    client.on_connect = on_connect
+    client.on_message = on_message
+    client.connect(broker_address,port=broker_port)
+    client.publish("test_topic", "From HieuVM")
+    print("abc")
+    time.sleep(1)
 
 
-while True:
-  client=mqtt.Client()
-  client.tls_set(ca_certs=ca_cert)
-
-  client.on_connect = on_connect
-  client.on_message = on_message
-  client.connect(broker_address,port=broker_port)
-  client.publish("test_topic", "From HieuVM")
 
   
   
   #print(t)
-  
+
+
 
 
 
