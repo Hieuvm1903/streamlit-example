@@ -125,7 +125,10 @@ def style_button_row(clicked_button_ix, n_buttons):
         else:
             style += unclicked_style % get_button_indices(ix)
     st.markdown(f"<style>{style}</style>", unsafe_allow_html=True)
-
+if 'user' not in st.session_state:
+    st.session_state.user = False
+if 'username' not in st.session_state:
+    st.session_state.username = ""
 
 with st.sidebar:
     choose = option_menu("BKLIGHT", ["Home", "Devices", "Controls", "Notifications", "Login"],key="home1",
@@ -138,10 +141,7 @@ with st.sidebar:
         "nav-link-selected": {"background-color": "#02ab21"}
     }
     )
-if 'user' not in st.session_state:
-    st.session_state.user = False
-if 'username' not in st.session_state:
-    st.session_state.username = ""
+
 if choose == "Home":
     col1, col2 = st.columns( [0.5, 0.5])
     with col1:
@@ -155,8 +155,8 @@ elif choose == "Devices":
     show()
     
 elif choose == "Notifications":
-    #test()   
-    print("true")
+    test()   
+    #print("true")
     
 elif choose == "Controls":
     col1, col2, col3 = st.columns(3)

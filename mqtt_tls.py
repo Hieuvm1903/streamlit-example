@@ -11,36 +11,40 @@ def on_connect(client, userdata, flags, rc):
     print("connection failed with rc: "+ str(rc))
   client.subscribe("temp/esp32")
 def on_message(client,userdata,msg):
-  print(msg.topic + ":" + str(msg.payload))
+  print("received")
+  print(msg.topic + ":" + str(msg.payload.decode("utf-8")))
 
 
 ca_cert = "ca.crt"   
 broker_address = "xemdoan2408.duckdns.org"
-broker_port = 1234  # Default port for MQTT with TLS
-topic_to_subscribe = "test_topic"
-client=mqtt.Client()
+broker_port = 1234  
+topic_to_subscribe = "LED_Data"
+client=mqtt.Client("On/Off")
+
 client.tls_set(ca_certs=ca_cert,tls_version=ssl.PROTOCOL_TLSv1_2)
 client.tls_insecure_set(True)
+
 client.on_connect = on_connect
 client.on_message = on_message
 client.connect(broker_address,port=broker_port)
-client.subscribe(topic_to_subscribe)
+client.on_message = on_message
+
 def test():
   t=0
-  while t<=20:
-    
-    client.publish("test_topic", "From HieuVM")
-    t+=1
-    time.sleep(1)
-# Keep the script running
-try:
-    while True:
-        pass
-except KeyboardInterrupt:
-    client.disconnect()
-    client.loop_stop()
+  client.subscribe(topic_to_subscribe)
+  client.loop_start()
+  while t == 0:
+    #client.publish(topic_to_subscribe, "01 1")
+      time.sleep(10)
+      try:
+        while True:
+         pass
+      except KeyboardInterrupt:
+        client.loop_stop()
+#     # 
+# 
   
-  #print(t)
+
 
 
 
