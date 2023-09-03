@@ -62,7 +62,7 @@ def control_generate(i):
     lamp1_state = st.button(":gear:", on_click=style_button_row, kwargs={'clicked_button_ix': 1, 'n_buttons': 6 },key = "turn"+str(i))
     lamp1 = 1
     if lamp1_state:
-        on_off_client(s = str(i) + str(lamp1))
+        on_off_client(s = str(i)+" " + str(lamp1))
         lamp1 = 1-lamp1
         #setting time control
     time = st.button(":clock1:", on_click=style_button_row, kwargs={
