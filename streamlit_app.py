@@ -8,17 +8,15 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import folium
-import supabase as sb
 from supabase import create_client, Client
 from streamlit_folium import st_folium, folium_static
 
 import noti
 from encript import *
 from light import Light_Street
-import map
 from map import *
-import mqtt_tls
 from mqtt_tls import *
+from control import *
 #conn =  pyodbc.connect(
 #    Trusted_Connection='Yes',
 #    Driver='{ODBC Driver 17 for SQL Server}',
@@ -91,49 +89,16 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 
 
-def style_button_row(clicked_button_ix, n_buttons):
 
-    def get_button_indices(button_ix):
-        return {
-            'nth_child': button_ix,
-            'nth_last_child': n_buttons - button_ix + 1
-        }
-
-    clicked_style = """
-    div[data-testid*="stHorizontalBlock"] > div:nth-child(%(nth_child)s):nth-last-child(%(nth_last_child)s) button {
-        border-color: rgb(255, 75, 75);
-        color: rgb(255, 75, 75);
-        box-shadow: rgba(255, 75, 75, 0.5) 0px 0px 0px 0.2rem;
-        outline: currentcolor none medium;
-    }
-    """
-    unclicked_style = """
-    div[data-testid*="stHorizontalBlock"] > div:nth-child(%(nth_child)s):nth-last-child(%(nth_last_child)s) button {
-        pointer-events: none;
-        cursor: not-allowed;
-        opacity: 0.65;
-        filter: alpha(opacity=65);
-        -webkit-box-shadow: none;
-        box-shadow: none;
-    }
-    """
-    style = ""
-    for ix in range(n_buttons):
-        ix += 1
-        if ix == clicked_button_ix:
-            style += clicked_style % get_button_indices(ix)
-        else:
-            style += unclicked_style % get_button_indices(ix)
-    st.markdown(f"<style>{style}</style>", unsafe_allow_html=True)
 if 'user' not in st.session_state:
     st.session_state.user = False
 if 'username' not in st.session_state:
     st.session_state.username = ""
 
 with st.sidebar:
-    choose = option_menu("BKLIGHT", ["Home", "Devices", "Controls", "Notifications", "Login"],key="home1",
+    choose = option_menu("BKLIGHT", ["Home", "Devices", "Controls", "Notifications", "Login"],
                          icons=['house', 'lightbulb', 'menu-button', 'bell','door-open'],
-                         menu_icon="app-indicator", default_index=0,
+                         menu_icon="app-indicator", default_index=0,key='menu_4',
                          styles={
         "container": {"padding": "5!important", "background-color": "#0c0c0c"},
         "icon": {"color": "orange", "font-size": "25px"}, 
@@ -158,44 +123,13 @@ elif choose == "Notifications":
     test()   
     #print("true")
     
-elif choose == "Controls":
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.header("Lamp 1a :bulb:")
-        st.slider("brightness",min_value=0, max_value=100,value= 100,step = 5, key = 0)
-        st.button(":gear:", on_click=style_button_row, kwargs={
-       'clicked_button_ix': 1, 'n_buttons': 6 },key = 1)
-        st.button(":clock1:", on_click=style_button_row, kwargs={
-       'clicked_button_ix': 2, 'n_buttons': 6 },key = 2)
-        st.metric("Temperature", "72 °F", "1.5 °F")
-        st.metric("Wind", "9 mph", "-5%")
-        st.metric("Humidity", "86%", "6%")
-        
-
-    with col2:
-        st.header("Lamp 2 :bulb:")
-        st.slider("brightness",min_value=0, max_value=100,value= 100,step = 5, key = 'sl2')
-        st.button(":gear:", on_click=style_button_row, kwargs={
-       'clicked_button_ix': 3, 'n_buttons': 6 },key = 3)
-        st.button(":clock1:", on_click=style_button_row, kwargs={
-       'clicked_button_ix': 4, 'n_buttons': 6 },key = 4)
-        st.metric("Temperature", "70 °F", "1.2 °F")
-        st.metric("Wind", "9 mph", "-8%")
-        st.metric("Humidity", "86%", "4%")
-        
-
-    
-
-    with col3:
-        st.header("Lamp 3 :bulb:")
-        st.slider("brightness",min_value=0, max_value=100,value= 100,step = 5,key = 'st3')
-        st.button(":gear:", on_click=style_button_row, kwargs={
-       'clicked_button_ix': 5, 'n_buttons': 6 },key = 5)
-        st.button(":clock1:", on_click=style_button_row, kwargs={
-       'clicked_button_ix': 6, 'n_buttons': 6 }, key =6)
-        st.metric("Temperature", "71 °F", "1.2 °F")
-        st.metric("Wind", "9 mph", "-7%")
-        st.metric("Humidity", "86%", "5%")
+elif choose == "Controls":    
+    i = 0
+    for col in st.columns(5):
+         i = i+1
+         with col:
+              control_generate(i)
+   
 elif choose == "Login":          
         with st.form("Login"):            
             if not st.session_state.user:

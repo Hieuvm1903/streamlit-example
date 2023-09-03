@@ -19,7 +19,7 @@ ca_cert = "ca.crt"
 broker_address = "xemdoan2408.duckdns.org"
 broker_port = 1234  
 topic_to_subscribe = "LED_Data"
-client=mqtt.Client("On/Off")
+client=mqtt.Client()
 
 client.tls_set(ca_certs=ca_cert,tls_version=ssl.PROTOCOL_TLSv1_2)
 client.tls_insecure_set(True)
@@ -41,9 +41,15 @@ def test():
          pass
       except KeyboardInterrupt:
         client.loop_stop()
-#     # 
-# 
-  
+def on_off_client(s):
+  client.publish("LED_Control/On_off", s)
+def bright_client(s):
+  client.publish("LED_Control/Dimming",s)
+def time_setting(s):
+  client.publish("LED_Control/Set_Time",s)
+def start():
+  client.subscribe("LED_Control/Dimming")
+  client.loop_start()
 
 
 
