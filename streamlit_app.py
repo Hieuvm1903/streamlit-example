@@ -119,9 +119,9 @@ elif choose == "Devices":
     
 elif choose == "Notifications":
     if st.session_state.user:
-        start()
+        #start()
         get_noti()
-       # test()   
+          
         
     #print("true")
     
