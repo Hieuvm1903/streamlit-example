@@ -38,10 +38,9 @@ client.on_connect = on_connect
 client.on_message = on_message
 client.connect(broker_address,port=broker_port)
 client.on_message = on_message
-
+client.subscribe(topic_to_subscribe)
 def test():
   t=0
-  client.subscribe(topic_to_subscribe)
   client.loop_start()
   while t == 0:
     #client.publish(topic_to_subscribe, "01 1")
@@ -51,6 +50,7 @@ def test():
          pass
       except KeyboardInterrupt:
         client.loop_stop()
+        
 def on_off_client(s):
   client.publish("LED_Control/On_off", s)
 def bright_client(s):
