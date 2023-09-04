@@ -11,5 +11,5 @@ def get_noti():
     data.sort_values(by='timestamp',ascending=False)
 
     st.write(data.head(5))
-        
+light =  pd.DataFrame(supabase.table("Light").select("*").execute().data)
         

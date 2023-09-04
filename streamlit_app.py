@@ -57,11 +57,11 @@ from data import *
 #Streamlit app layout
 
 
-sheet_id = "1XqOtPkiE_Q0dfGSoyxrH730RkwrTczcRbDeJJpqRByQ"
-sheet_name ="sample_1"
-urlsheet = "https://docs.google.com/spreadsheets/d/1zu6W388L9CaLzzrbQtkgbQQwj0-CmwiEO1hwvF4D4m0/edit#gid=0"
-url_1 = urlsheet.replace('/edit#gid=', '/export?format=csv&gid=')
-sheetbase = pd.read_csv(url_1)
+# sheet_id = "1XqOtPkiE_Q0dfGSoyxrH730RkwrTczcRbDeJJpqRByQ"
+# sheet_name ="sample_1"
+# urlsheet = "https://docs.google.com/spreadsheets/d/1zu6W388L9CaLzzrbQtkgbQQwj0-CmwiEO1hwvF4D4m0/edit#gid=0"
+# url_1 = urlsheet.replace('/edit#gid=', '/export?format=csv&gid=')
+# sheetbase = pd.read_csv(url_1)
 
 
 url= "https://uzgwhrmgbnvebgshvkfi.supabase.co"

@@ -35,12 +35,12 @@ m.get_root().html.add_child(folium.Element(popup_script))
 # Display the map
 map_plot = folium.Map(location=[21.0043061,105.8373198],zoom_start=13)  
 folium.TileLayer('cartodbpositron').add_to(map_plot)
-Lights = pd.DataFrame([[21.0043061,105.8373198],[21.0004175,105.839110],[20.9975346,105.844127]], columns= ['lat','lon'])
+Lights = data.light
 
 for i in range(Lights.shape[0]):
     #folium.CircleMarker([Lights.lat.iloc[i],Lights.lon.iloc[i]],radius = 5,color = '#a6cee3',fill = '#a6cee3' ).add_to(map_plot)
 
-    light_location = [Lights.lat.iloc[i],Lights.lon.iloc[i]]
+    light_location = [Lights.latitude.iloc[i],Lights.longtitude.iloc[i]]
     popup_content = "<strong>Street Light</strong><br>Location: {}, {}".format(Lights.lat.iloc[i], Lights.lon.iloc[i])
 
     marker = folium.Marker(location=light_location, tooltip=popup_content,popup =popup_content, icon=folium.Icon(color='black', icon='lightbulb-cfl-on', prefix='fa'))

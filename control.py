@@ -47,17 +47,28 @@ def control_generate(i):
     def bright_change():
        bright_client(str(i)+" "+ str(st.session_state[key]))
     
-    brightness = st.slider("brightness",min_value=0, max_value=100,value= 100,step = 5,key = key,on_change = bright_change)
-    start()
-    lamp1_state = st.button(":gear:", on_click=style_button_row, kwargs={'clicked_button_ix': 1, 'n_buttons': 6 },key = "turn"+str(i))
+    brightness = st.slider("brightness",min_value=0, max_value=100,value= 100,step = 5,key = key,on_change = bright_change)   
+    lamp1_state = st.button("⚙️  ", on_click=style_button_row, kwargs={'clicked_button_ix': 1, 'n_buttons': 6 },key = "turn"+str(i))
     lamp1 = 1
     if lamp1_state:
         on_off_client(s = str(i)+" " + str(lamp1))
         lamp1 = 1-lamp1
+
         #setting time control
-    time = st.button(":clock1:", on_click=style_button_row, kwargs={
-       'clicked_button_ix': 2, 'n_buttons': 6 },key = "time"+str(i))
-    
+    with st.container():
+        def format(s):
+            if s == '1':
+                return 'On'
+            else:
+                return 'Off'
+        time = st.button(":clock1:" , on_click=style_button_row, kwargs={
+            'clicked_button_ix': 2, 'n_buttons': 6 },key = "time"+str(i))
+        t = st.time_input('🕐Time',step = 300, key = str(i)+'time')
+        o = st.selectbox('🔘State', key = 'state'+str(i),options=('1','0'),format_func= format)
+        sl = st.slider("🔅Brightness",min_value=0, max_value=100,value= 100,step = 5,key = str(i)+'slider',on_change = bright_change)
+        if time:
+            time_setting(str(i)+" "+ t.strftime("%H %M")+" "+ o + " "+ str(sl))
+            
     #st.metric("Temperature", "72 °F", "1.5 °F")
     #st.metric("Wind", "9 mph", "-5%")
     #st.metric("Humidity", "86%", "6%")
