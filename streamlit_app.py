@@ -11,12 +11,12 @@ import folium
 from supabase import create_client, Client
 from streamlit_folium import st_folium, folium_static
 
-import noti
 from encript import *
 from light import Light_Street
 from map import *
 from mqtt_tls import *
 from control import *
+from data import *
 #conn =  pyodbc.connect(
 #    Trusted_Connection='Yes',
 #    Driver='{ODBC Driver 17 for SQL Server}',
@@ -67,6 +67,7 @@ sheetbase = pd.read_csv(url_1)
 url= "https://uzgwhrmgbnvebgshvkfi.supabase.co"
 key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6Z3docm1nYm52ZWJnc2h2a2ZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODgwNjU5NTgsImV4cCI6MjAwMzY0MTk1OH0.QogXPI4YOBnZTYTHeM5b1Zurnuu-VYsXmhRBssMW47c"
 supabase = create_client(url, key)
+
 hide_streamlit_style = """
             <style>
             header {visibility: hidden;}
@@ -84,10 +85,6 @@ hide_streamlit_style = """
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
-
-    
-
-
 
 
 if 'user' not in st.session_state:
@@ -107,6 +104,7 @@ with st.sidebar:
     }
     )
 
+     
 if choose == "Home":
     col1, col2 = st.columns( [0.5, 0.5])
     with col1:
@@ -114,20 +112,24 @@ if choose == "Home":
         
     with col2:
         st.markdown('<p style="text-align: center;">BKLIGHT</p>',unsafe_allow_html=True)  
-        st.write(sheetbase)    
     
 elif choose == "Devices":
-    show()
+    if st.session_state.user:
+        show()
     
 elif choose == "Notifications":
-    test()   
+    if st.session_state.user:
+        get_noti()
+       # test()   
+        
     #print("true")
     
-elif choose == "Controls":    
-    i = 0
-    for col in st.columns(5):
-         i = i+1
-         with col:
+elif choose == "Controls":   
+    if st.session_state.user: 
+        i = 0
+        for col in st.columns(5):
+            i = i+1
+            with col:
               control_generate(i)
    
 elif choose == "Login":          

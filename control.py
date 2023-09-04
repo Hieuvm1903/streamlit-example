@@ -1,19 +1,9 @@
-import pyodbc 
 import streamlit as st
-from streamlit_option_menu import option_menu
-import streamlit.components.v1 as html
-from  PIL import Image
 import numpy as np
 import pandas as pd
-import plotly.express as px
-import folium
 from supabase import create_client, Client
-from streamlit_folium import st_folium, folium_static
-
-import noti
 from encript import *
 from light import Light_Street
-from map import *
 from mqtt_tls import *
 
 def style_button_row(clicked_button_ix, n_buttons):
