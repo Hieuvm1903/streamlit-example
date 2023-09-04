@@ -41,7 +41,7 @@ for i in range(Lights.shape[0]):
     #folium.CircleMarker([Lights.lat.iloc[i],Lights.lon.iloc[i]],radius = 5,color = '#a6cee3',fill = '#a6cee3' ).add_to(map_plot)
 
     light_location = [Lights.latitude.iloc[i],Lights.longtitude.iloc[i]]
-    popup_content = "<strong>Street Light</strong><br>Location: {}, {}".format(Lights.lat.iloc[i], Lights.lon.iloc[i])
+    popup_content = "<strong>Street Light</strong><br>Location: {}, {}".format(Lights.latitude.iloc[i], Lights.longtitude.iloc[i])
 
     marker = folium.Marker(location=light_location, tooltip=popup_content,popup =popup_content, icon=folium.Icon(color='black', icon='lightbulb-cfl-on', prefix='fa'))
     marker.add_to(m)
