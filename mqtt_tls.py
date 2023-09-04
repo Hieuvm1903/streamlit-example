@@ -3,7 +3,7 @@ from datetime import datetime
 import paho.mqtt.client as mqtt
 import ssl
 import data
-
+import streamlit as st
 
 def on_connect(client, userdata, flags, rc):
   if rc==0:
@@ -20,8 +20,7 @@ def on_message(client,userdata,msg):
   dimming = int(string[3])
   flow = int(string[4])
   data.supabase.table("Events").insert({"lampid" :lampid,"timestamp": time,"state":state,"dimming":dimming,"flow":flow }).execute()
-
-  print(string)
+  
 
 
 
