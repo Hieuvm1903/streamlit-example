@@ -58,6 +58,8 @@ def time_setting(s):
   client.publish("LED_Control/Set_Time",s)
 def start():
   client.loop_start()
+def stop():
+  client.loop_stop()
 
 
 

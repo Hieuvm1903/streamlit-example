@@ -91,7 +91,7 @@ if 'user' not in st.session_state:
     st.session_state.user = False
 if 'username' not in st.session_state:
     st.session_state.username = ""
-
+stop()
 with st.sidebar:
     choose = option_menu("BKLIGHT", ["Home", "Devices", "Controls", "Notifications", "Login"],
                          icons=['house', 'lightbulb', 'menu-button', 'bell','door-open'],
