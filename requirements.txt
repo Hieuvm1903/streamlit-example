@@ -8,3 +8,4 @@ plotly
 streamlit_option_menu
 supabase
 paho-mqtt == 1.5.1
+cryptography
