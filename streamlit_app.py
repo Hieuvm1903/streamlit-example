@@ -63,6 +63,7 @@ from data import *
 # url_1 = urlsheet.replace('/edit#gid=', '/export?format=csv&gid=')
 # sheetbase = pd.read_csv(url_1)
 
+st.set_page_config(layout="wide")     
 
 url= "https://uzgwhrmgbnvebgshvkfi.supabase.co"
 key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6Z3docm1nYm52ZWJnc2h2a2ZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODgwNjU5NTgsImV4cCI6MjAwMzY0MTk1OH0.QogXPI4YOBnZTYTHeM5b1Zurnuu-VYsXmhRBssMW47c"
@@ -104,7 +105,6 @@ with st.sidebar:
     }
     )
 
-     
 if choose == "Home":
     col1, col2 = st.columns( [0.5, 0.5])
     with col1:
@@ -126,12 +126,34 @@ elif choose == "Notifications":
     #print("true")
     
 elif choose == "Controls":   
-    if st.session_state.user: 
-        i = 0
-        for col in st.columns(5):
-            i = i+1
-            with col:
-              control_generate(i)
+    if st.session_state.user:        
+        light = data.light
+        a = light.shape[0]//3
+        b = light.shape[0]%3
+        for i in range(a):
+            with st.container():
+                j = 0
+                for col in st.columns(3,gap = 'medium'):                   
+                    l = light.iloc[i*3+j]
+                    j = j+1
+                    with col:
+                        control_generate(int(l.id))
+            "---"
+                
+        if b>0:
+            with st.container(): 
+                j = 0
+                for col in st.columns(3,gap='medium'):
+                    l = light.iloc[a*3+j]
+                    j = j+1
+                    with col:
+                        control_generate(int(l.id))
+                    if j == b:
+                        break
+                    
+                    
+
+        
    
 elif choose == "Login":          
         with st.form("Login"):            
