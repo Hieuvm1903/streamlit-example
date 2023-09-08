@@ -35,7 +35,7 @@ client.tls_insecure_set(True)
 
 client.on_connect = on_connect
 client.on_message = on_message
-client.connect(broker_address,port=broker_port)
+#client.connect(broker_address,port=broker_port)
 client.on_message = on_message
 client.subscribe(topic_to_subscribe)
 def test():

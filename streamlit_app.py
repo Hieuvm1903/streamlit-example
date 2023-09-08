@@ -86,7 +86,10 @@ hide_streamlit_style = """
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
-
+html.html("""
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0" nonce="qduBKSkX"></script>
+""")
 
 if 'user' not in st.session_state:
     st.session_state.user = False
@@ -112,6 +115,7 @@ if choose == "Home":
         
     with col2:
         st.markdown('<p style="text-align: center;">BKLIGHT</p>',unsafe_allow_html=True)  
+        html.html("""<div class="fb-comments" data-href="https://iot-bklight.streamlit.app" data-width="750" data-numposts="5"></div>""")
     
 elif choose == "Devices":
     if st.session_state.user:
