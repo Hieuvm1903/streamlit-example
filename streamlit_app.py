@@ -1,6 +1,13 @@
 
 import pyodbc 
 import streamlit as st
+st.set_page_config(page_icon="🧊",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'Get Help': 'https://www.extremelycoolapp.com/help',
+        'Report a bug': "https://www.extremelycoolapp.com/bug",
+        'About': "# This is a header. This is an *extremely* cool app!"})    
 from streamlit_option_menu import option_menu
 import streamlit.components.v1 as html
 from  PIL import Image
@@ -63,11 +70,10 @@ from data import *
 # url_1 = urlsheet.replace('/edit#gid=', '/export?format=csv&gid=')
 # sheetbase = pd.read_csv(url_1)
 
-st.set_page_config(layout="wide")     
+ 
 
-url= "https://uzgwhrmgbnvebgshvkfi.supabase.co"
-key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6Z3docm1nYm52ZWJnc2h2a2ZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODgwNjU5NTgsImV4cCI6MjAwMzY0MTk1OH0.QogXPI4YOBnZTYTHeM5b1Zurnuu-VYsXmhRBssMW47c"
-supabase = create_client(url, key)
+
+
 
 hide_streamlit_style = """
             <style>
@@ -86,10 +92,7 @@ hide_streamlit_style = """
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
-html.html("""
-<div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0" nonce="qduBKSkX"></script>
-""")
+
 
 if 'user' not in st.session_state:
     st.session_state.user = False
@@ -115,7 +118,14 @@ if choose == "Home":
         
     with col2:
         st.markdown('<p style="text-align: center;">BKLIGHT</p>',unsafe_allow_html=True)  
-        html.html("""<div class="fb-comments" data-href="https://iot-bklight.streamlit.app" data-width="750" data-numposts="5"></div>""")
+        html.html("""
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0" nonce="qduBKSkX"></script>
+
+<div class="fb-comments" data-href="https://iot-bklight.streamlit.app" data-width="750" data-numposts="5"></div>          
+          
+          
+          """)
     
 elif choose == "Devices":
     if st.session_state.user:
