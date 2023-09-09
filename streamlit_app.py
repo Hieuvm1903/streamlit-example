@@ -1,25 +1,19 @@
 
 import pyodbc 
 import streamlit as st
-st.set_page_config(page_icon="🧊",
-    layout="wide",
-    initial_sidebar_state="expanded",
-    menu_items={
-        'Get Help': 'https://www.extremelycoolapp.com/help',
-        'Report a bug': "https://www.extremelycoolapp.com/bug",
-        'About': "# This is a header. This is an *extremely* cool app!"})    
+# st.set_page_config(page_icon="🧊",
+#     layout="wide",
+#     initial_sidebar_state="expanded",
+#     menu_items={
+#         'Get Help': 'https://www.extremelycoolapp.com/help',
+#         'Report a bug': "https://www.extremelycoolapp.com/bug",
+#         'About': "# This is a header. This is an *extremely* cool app!"})    
 from streamlit_option_menu import option_menu
 import streamlit.components.v1 as html
-from  PIL import Image
 import numpy as np
 import pandas as pd
-import plotly.express as px
-import folium
-from supabase import create_client, Client
-from streamlit_folium import st_folium, folium_static
 
 from encript import *
-from light import Light_Street
 from map import *
 from mqtt_tls import *
 from control import *
@@ -91,9 +85,12 @@ hide_streamlit_style = """
 }
             </style>
             """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+#st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 
-
+          
+html.html("""
+<div data-href="https://iot-bklight.streamlit.app" data-width="750" data-numposts="5" class="fb-comments fb_iframe_widget fb_iframe_widget_fluid_desktop" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=&amp;container_width=734&amp;height=100&amp;href=https%3A%2F%2Fiot-bklight.streamlit.app%2F&amp;locale=vi_VN&amp;numposts=5&amp;sdk=joey&amp;version=v17.0&amp;width=750"><span style="vertical-align: bottom; width: 750px; height: 266px;"><iframe name="f19a9242015f06" width="750px" height="100px" data-testid="fb:comments Facebook Social Plugin" title="fb:comments Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/v17.0/plugins/comments.php?app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df3e6b7dc74f409c%26domain%3Ddevelopers.facebook.com%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Fdevelopers.facebook.com%252Ff1b68c5923a03f%26relation%3Dparent.parent&amp;container_width=734&amp;height=1000&amp;href=https%3A%2F%2Fiot-bklight.streamlit.app%2F&amp;locale=vi_VN&amp;numposts=5&amp;sdk=joey&amp;version=v17.0&amp;width=750" style="border: none; visibility: visible; width: 750px; height: 1000px;" class=""></iframe></span></div>
+          """)
 if 'user' not in st.session_state:
     st.session_state.user = False
 if 'username' not in st.session_state:
@@ -115,15 +112,19 @@ if choose == "Home":
     col1, col2 = st.columns( [0.5, 0.5])
     with col1:
         st.markdown('<p style="text-align: center;">Introduce</p>',unsafe_allow_html=True)
-        
-    with col2:
-        st.markdown('<p style="text-align: center;">BKLIGHT</p>',unsafe_allow_html=True)  
         html.html("""
-<div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0" nonce="qduBKSkX"></script>
+<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fevbinl%2Fposts%2Fpfbid0yXA8baut3T5PBDm7vzPe64YquP5nHWuXQov4Bcc6YDSA59x7ETSXjUoQPv4RoTzNl&width=750&show_text=true&height=559&appId" width="750" height="559" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>                  
 
+""")
+    with col2:
+        with st.container():
+
+            st.markdown('<p style="text-align: center;">BKLIGHT</p>',unsafe_allow_html=True)  
+            html.html("""
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0" nonce="Ik00TEAa"></script>
+                                   
 <div class="fb-comments" data-href="https://iot-bklight.streamlit.app" data-width="750" data-numposts="5"></div>          
-          
           
           """)
     
