@@ -37,13 +37,13 @@ folium.TileLayer('cartodbpositron').add_to(map_plot)
 Lights = data.light
 
 for i in range(Lights.shape[0]):
-    #folium.CircleMarker([Lights.lat.iloc[i],Lights.lon.iloc[i]],radius = 5,color = '#a6cee3',fill = '#a6cee3' ).add_to(map_plot)
 
     light_location = [Lights.longtitude.iloc[i],Lights.latitude.iloc[i]]
-    popup_content = "<strong>Street Light</strong><br>Location: {}, {}".format(Lights.latitude.iloc[i], Lights.longtitude.iloc[i])
+    popup_content = "<strong>Street Light</strong>\n<br>Location: \n {}, {},\nbrightness💡: {}% ".format(Lights.latitude.iloc[i], Lights.longtitude.iloc[i],Lights.bright.iloc[i])
 
-    marker = folium.Marker(location=light_location, tooltip=popup_content,popup =popup_content, icon=folium.Icon(color='red', icon='lightbulb-cfl-on', prefix='fa'))
+    marker = folium.Marker(location=light_location, tooltip=popup_content,popup =popup_content, icon=folium.Icon(color='orange' if Lights.bright.iloc[i]> 0 else 'black', icon='lightbulb', prefix='fa'), parse_html=True)
     marker.add_to(m)
+
 folium.TileLayer('cartodbpositron').add_to(m)
 
 def show():

@@ -14,14 +14,23 @@ def on_connect(client, userdata, flags, rc):
   client.subscribe("temp/esp32")
 def on_message(client,userdata,msg):
   string = str(msg.payload.decode("utf-8")).split(" ")
-  lampid = int(string[0])
-  time = datetime.utcfromtimestamp(int(string[1])).strftime('%Y-%m-%d %H:%M:%S')
-  state = int(string[2])
-  dimming = int(string[3])
-  flow = int(string[4])
-  data.supabase.table("Events").insert({"lampid" :lampid,"timestamp": time,"state":state,"dimming":dimming,"flow":flow }).execute()
-  
-
+  if msg.topic == "LED_Data ":
+    
+    lampid = int(string[0])
+    time = datetime.utcfromtimestamp(int(string[1])).strftime('%Y-%m-%d %H:%M:%S')
+    state = int(string[2])
+    dimming = int(string[3])
+    flow = int(string[4])
+    data.supabase.table("Events").insert({"lampid" :lampid,"timestamp": time,"state":state,"dimming":dimming,"flow":flow }).execute()
+  elif msg.topic == "Gateway_Alive":
+    time = datetime.utcfromtimestamp(int(string[0])).strftime('%Y-%m-%d %H:%M:%S')
+    lampid = int(string[1])
+    status = int(string[2])
+    data.supabase.table("NoteDeath").insert({"time": time,"address":lampid,"status":status})
+  elif msg.topic == "Node_Dead":
+    time = datetime.utcfromtimestamp(int(string[0])).strftime('%Y-%m-%d %H:%M:%S')
+    node = int(string[1])
+    data.supabase.table("GateAlive").insert({"time": time,"status":node})
 
 
 ca_cert = "ca.crt"   
@@ -35,20 +44,14 @@ client.tls_insecure_set(True)
 
 client.on_connect = on_connect
 client.on_message = on_message
-#client.connect(broker_address,port=broker_port)
+try :
+  client.connect(broker_address,port=broker_port)
+except:
+  pass
 client.on_message = on_message
 client.subscribe(topic_to_subscribe)
-def test():
-  t=0
-  client.loop_start()
-  while t == 0:
-    #client.publish(topic_to_subscribe, "01 1")
-      time.sleep(10)
-      try:
-        while True:
-         pass
-      except KeyboardInterrupt:
-        client.loop_stop()
+client.subscribe("Gateway_Alive")
+client.subscribe("Node_Dead")
         
 def on_off_client(s):
   client.publish("LED_Control/On_off", s)

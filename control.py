@@ -40,8 +40,11 @@ def style_button_row(clicked_button_ix, n_buttons):
         else:
             style += unclicked_style % get_button_indices(ix)
     st.markdown(f"<style>{style}</style>", unsafe_allow_html=True)
-def control_generate(i):
-    st.header("Lamp " +str(i)+" :bulb:")
+def control_generate(i, b = True):
+    if b:
+        st.header("Lamp " +str(i)+" :bulb:")
+    else:
+        st.header("All" + ":bulb:")
         #brightness modification 
     key = "slider"+str(i)    
     def bright_change():
@@ -71,11 +74,12 @@ def control_generate(i):
                 return 'Off'
         time = st.button(":clock1:" , on_click=style_button_row, kwargs={
             'clicked_button_ix': 2, 'n_buttons': 6 },key = "time"+str(i))
-        t = st.time_input('🕐Time',step = 300, key = str(i)+'time')
-        o = st.selectbox('🔘State', key = 'state'+str(i),options=('1','0'),format_func= format)
-        sl = st.slider("🔅Brightness",min_value=0, max_value=100,value= 100,step = 5,key = str(i)+'slider',on_change = bright_change)
+        t1 = st.time_input('🕐Time',step = 300, key = str(i)+'time1')
+        t2 = st.time_input('🕐Time',step = 300, key = str(i)+'time2')
+        t3 = st.time_input('🕐Time',step = 300, key = str(i)+'time3')
+        t4 = st.time_input('🕐Time',step = 300, key = str(i)+'time4')
         if time:
-            time_setting(str(i)+" "+ t.strftime("%H %M")+" "+ o + " "+ str(sl))
+            time_setting(str(i)+" "+ t1.strftime("%H %M")+ " "+ t2.strftime("%H %M")+" "+ t3.strftime("%H %M")+" "+ t4.strftime("%H %M"))
             
     #st.metric("Temperature", "72 °F", "1.5 °F")
     #st.metric("Wind", "9 mph", "-5%")

@@ -1,13 +1,6 @@
 
 import pyodbc 
-import streamlit as st
-st.set_page_config(page_icon="random",
-    layout="wide",
-    initial_sidebar_state="expanded",
-    menu_items={
-        'Get Help': 'https://www.extremelycoolapp.com/help',
-        'Report a bug': "https://www.extremelycoolapp.com/bug",
-        'About': "# This is a header. This is an *extremely* cool app!"})    
+import streamlit as st   
 from streamlit_option_menu import option_menu
 import streamlit.components.v1 as html
 import numpy as np
@@ -65,7 +58,10 @@ from data import *
 # sheetbase = pd.read_csv(url_1)
 
  
-
+st.set_page_config(page_icon="random",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    ) 
 
 
 
@@ -93,7 +89,7 @@ if 'user' not in st.session_state:
     st.session_state.user = False
 if 'username' not in st.session_state:
     st.session_state.username = ""
-stop()
+#stop()
 with st.sidebar:
     choose = option_menu("BKLIGHT", ["Home", "Devices", "Controls", "Notifications", "Login"],
                          icons=['house', 'lightbulb', 'menu-button', 'bell','door-open'],
@@ -110,16 +106,13 @@ if choose == "Home":
     
     
     html.html("""
-<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto%2F%3Ffbid%3D207126528879455%26set%3Dgm.6181781221870440%26idorvanity%3D1418821624833114&width=750&show_text=true&height=692&appId" width="750" height="692" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-
-""",height = 700)
-    
+    <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto%2F%3Ffbid%3D207126528879455%26set%3Dgm.6181781221870440%26idorvanity%3D1418821624833114&width=750&show_text=true&height=692&appId" width="750" height="692" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+    """,height = 700)
+   
     html.html("""
-<div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0" nonce="Ik00TEAa"></script>
-                                   
-<div class="fb-comments" data-href="https://iot-bklight.streamlit.app" data-width="750" data-numposts="5"></div>          
-          
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0" nonce="Ik00TEAa"></script>                                   
+    <div class="fb-comments" data-href="https://iot-bklight.streamlit.app" data-width="750" data-numposts="5"></div>                    
           """,
     height=500,width=900)       
     
@@ -136,7 +129,10 @@ elif choose == "Notifications":
     #print("true")
     
 elif choose == "Controls":   
-    if st.session_state.user:        
+    if st.session_state.user:   
+        control_generate(65535,False)
+        "---"
+        "---"
         light = data.light.sort_values("id")
         a = light.shape[0]//3
         b = light.shape[0]%3
