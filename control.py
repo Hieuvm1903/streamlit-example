@@ -46,15 +46,23 @@ def control_generate(i):
     key = "slider"+str(i)    
     def bright_change():
        bright_client(str(i)+" "+ str(st.session_state[key]))
-    
-    brightness = st.slider("brightness",min_value=0, max_value=100,value= 100,step = 5,key = key,on_change = bright_change)   
-    lamp1_state = st.button("⚙️  ", on_click=style_button_row, kwargs={'clicked_button_ix': 1, 'n_buttons': 6 },key = "turn"+str(i))
-    lamp1 = 1
+    def slide_change(value):
+        st.session_state[key] = value
+    if key not in st.session_state:
+        st.session_state[key] = 100   
+    bright = st.slider("🔆Brightness",min_value=0, max_value=100,value= 100,step = 5,key = key,on_change = bright_change)   
+    lamp1_state = st.button("⚙️ On/Off  ", on_click=slide_change,kwargs={"value":100 if bright ==0 else 0},key = "turn"+str(i))
+    st.write("---")
     if lamp1_state:
-        on_off_client(s = str(i)+" " + str(lamp1))
-        lamp1 = 1-lamp1
+        if st.session_state[key] > 0:
+            
+            on_off_client(s = str(i)+" 0")
+        else:
+            
+            on_off_client(s = str(i)+" 1")
 
         #setting time control
+    
     with st.container():
         def format(s):
             if s == '1':

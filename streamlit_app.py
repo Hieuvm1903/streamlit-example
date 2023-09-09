@@ -137,7 +137,7 @@ elif choose == "Notifications":
     
 elif choose == "Controls":   
     if st.session_state.user:        
-        light = data.light
+        light = data.light.sort_values("id")
         a = light.shape[0]//3
         b = light.shape[0]%3
         for i in range(a):
