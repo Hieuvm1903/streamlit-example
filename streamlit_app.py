@@ -135,12 +135,12 @@ elif choose == "Controls":
         keyAll = "sliderAll"    
         def bright_changeAll():
             for i in data.light["id"]:          
-                bright_client(str(i)+" "+ str(st.session_state[key]))
+                bright_client(str(i)+" "+ str(st.session_state["slider"+str(i)]))
         def slide_change(value):
             st.session_state[keyAll] = value
         if keyAll not in st.session_state:
             st.session_state[keyAll] = 100   
-        bright = st.slider("🔆Brightness",min_value=0, max_value=100,value= 100,step = 5,key = keyAll,on_change = bright_changeAll)   
+        bright = st.slider("🔆Brightness",min_value=0, max_value=100,value= 100,step = 5, key = keyAll ,on_change = bright_changeAll)   
         lamp1_state = st.button("⚙️ On/Off  ", on_click=slide_change,kwargs={"value":100 if bright ==0 else 0},key = "turnAll")
         st.write("---")
         if lamp1_state:
