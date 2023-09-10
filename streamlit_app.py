@@ -217,6 +217,7 @@ elif choose == "Login":
                     if logout:
                         st.session_state.user = False
                         st.session_state.username = ""
+                        start()
                         st.experimental_rerun()
 
 

@@ -48,7 +48,6 @@ try :
   client.connect(broker_address,port=broker_port)
 except:
   pass
-client.on_message = on_message
 client.subscribe(topic_to_subscribe)
 client.subscribe("Gateway_Alive")
 client.subscribe("Node_Dead")
