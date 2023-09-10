@@ -129,11 +129,49 @@ elif choose == "Notifications":
     #print("true")
     
 elif choose == "Controls":   
+    light = data.light.sort_values("id")
     if st.session_state.user:   
-        control_generate(65535,False)
+        st.header("All" + ":bulb:")
+        keyAll = "sliderAll"    
+        def bright_changeAll():
+            for i in data.light["id"]:          
+                bright_client(str(i)+" "+ str(st.session_state[key]))
+        def slide_change(value):
+            st.session_state[keyAll] = value
+        if keyAll not in st.session_state:
+            st.session_state[keyAll] = 100   
+        bright = st.slider("🔆Brightness",min_value=0, max_value=100,value= 100,step = 5,key = keyAll,on_change = bright_changeAll)   
+        lamp1_state = st.button("⚙️ On/Off  ", on_click=slide_change,kwargs={"value":100 if bright ==0 else 0},key = "turnAll")
+        st.write("---")
+        if lamp1_state:
+            if st.session_state[keyAll] > 0:
+                for i in data.light["id"]:
+                    on_off_client(s = str(i)+" 0")
+            else:
+                for i in data.light["id"]:
+                    on_off_client(s = str(i)+" 1")
+
+        #setting time control
+    
+        with st.container():
+            def format(s):
+                if s == '1':
+                    return 'On'
+                else:
+                    return 'Off'
+            time = st.button(":clock1:" , on_click=style_button_row, kwargs={
+            'clicked_button_ix': 2, 'n_buttons': 6 },key = "time"+str(i))
+            t1 = st.time_input('🕐Time',step = 300, key ='Alltime1')
+            t2 = st.time_input('🕐Time',step = 300, key ='Alltime2')
+            t3 = st.time_input('🕐Time',step = 300, key ='Alltime3')
+            t4 = st.time_input('🕐Time',step = 300, key ='Alltime4')
+            if time:
+                for i in data.light["id"]:
+                    time_setting(str(i)+" "+ t1.strftime("%H %M")+ " "+ t2.strftime("%H %M")+" "+ t3.strftime("%H %M")+" "+ t4.strftime("%H %M"))
+            
         "---"
         "---"
-        light = data.light.sort_values("id")
+        
         a = light.shape[0]//3
         b = light.shape[0]%3
         for i in range(a):
