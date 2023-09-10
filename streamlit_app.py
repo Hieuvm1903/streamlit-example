@@ -82,7 +82,7 @@ hide_streamlit_style = """
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
-
+showWarningOnDirectExecution = False
           
 
 if 'user' not in st.session_state:
