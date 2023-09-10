@@ -44,10 +44,13 @@ client.tls_insecure_set(True)
 
 client.on_connect = on_connect
 client.on_message = on_message
-try :
-  client.connect(broker_address,port=broker_port)
-except:
-  pass
+t = True
+while t:
+  try :
+    client.connect(broker_address,port=broker_port)
+    t = False
+  except:
+    pass
 client.subscribe(topic_to_subscribe)
 client.subscribe("Gateway_Alive")
 client.subscribe("Node_Dead")

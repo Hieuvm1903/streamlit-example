@@ -43,6 +43,7 @@ def style_button_row(clicked_button_ix, n_buttons):
 def control_generate(i, b = True):
     if b:
         st.header("Lamp " +str(i)+" :bulb:")
+
     else:
         st.header("All" + ":bulb:")
         #brightness modification 
@@ -73,7 +74,7 @@ def control_generate(i, b = True):
             else:
                 return 'Off'
         time = st.button(":clock1:" , on_click=style_button_row, kwargs={
-            'clicked_button_ix': 2, 'n_buttons': 6 },key = "time"+str(i))
+            'clicked_button_ix': 2, 'n_buttons': 6 },key = "timer"+str(i))
         t1 = st.time_input('🕐Time',step = 300, key = str(i)+'time1')
         t2 = st.time_input('🕐Time',step = 300, key = str(i)+'time2')
         t3 = st.time_input('🕐Time',step = 300, key = str(i)+'time3')
