@@ -82,9 +82,8 @@ hide_streamlit_style = """
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
-showWarningOnDirectExecution = False
+#showWarningOnDirectExecution = False
           
-
 if 'user' not in st.session_state:
     st.session_state.user = False
 if 'username' not in st.session_state:
@@ -122,7 +121,7 @@ elif choose == "Devices":
     
 elif choose == "Notifications":
     if st.session_state.user:
-        #start()
+        
         get_noti()
           
         
@@ -211,14 +210,16 @@ elif choose == "Login":
                     st.session_state.user = login(username, password)[0]
                     st.session_state.username = login(username, password)[1]                    
                     st.success('Logged in successfully!')
+                    
                     st.experimental_rerun()
+                    
             else:                    
                     st.title("Welcome " +st.session_state.username)
                     logout = st.form_submit_button("Logout")
                     if logout:
                         st.session_state.user = False
                         st.session_state.username = ""
-                        start()
+                        
                         st.experimental_rerun()
 
 

@@ -13,8 +13,10 @@ def on_connect(client, userdata, flags, rc):
     print("connection failed with rc: "+ str(rc))
   client.subscribe("temp/esp32")
 def on_message(client,userdata,msg):
+  
   string = str(msg.payload.decode("utf-8")).split(" ")
-  if msg.topic == "LED_Data ":
+  
+  if msg.topic == "LED_Data":
     
     lampid = int(string[0])
     time = datetime.utcfromtimestamp(int(string[1])).strftime('%Y-%m-%d %H:%M:%S')
@@ -22,15 +24,15 @@ def on_message(client,userdata,msg):
     dimming = int(string[3])
     flow = int(string[4])
     data.supabase.table("Events").insert({"lampid" :lampid,"timestamp": time,"state":state,"dimming":dimming,"flow":flow }).execute()
-  elif msg.topic == "Gateway_Alive":
+  elif msg.topic == "Node_Dead":
     time = datetime.utcfromtimestamp(int(string[0])).strftime('%Y-%m-%d %H:%M:%S')
     lampid = int(string[1])
     status = int(string[2])
-    data.supabase.table("NoteDeath").insert({"time": time,"address":lampid,"status":status})
-  elif msg.topic == "Node_Dead":
+    data.supabase.table("NodeDeath").insert({"time": time,"address":lampid,"status":status}).execute()
+  elif msg.topic == "Gateway_Alive":
     time = datetime.utcfromtimestamp(int(string[0])).strftime('%Y-%m-%d %H:%M:%S')
     node = int(string[1])
-    data.supabase.table("GateAlive").insert({"time": time,"status":node})
+    data.supabase.table("GateAlive").insert({"time": time,"status":node}).execute()
 
 
 ca_cert = "ca.crt"   
@@ -54,7 +56,7 @@ while t:
 client.subscribe(topic_to_subscribe)
 client.subscribe("Gateway_Alive")
 client.subscribe("Node_Dead")
-        
+client.loop_start()
 def on_off_client(s):
   client.publish("LED_Control/On_off", s)
 def bright_client(s):
