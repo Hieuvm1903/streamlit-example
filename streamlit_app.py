@@ -1,14 +1,19 @@
 
+
 import pyodbc 
-import streamlit as st   
+import streamlit as st  
+st.set_page_config(page_icon="random",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    )  
 from streamlit_option_menu import option_menu
 import streamlit.components.v1 as html
 import numpy as np
 import pandas as pd
-
+from mqtt_tls import *
+import mqtt_tls as ms
 from encript import *
 from map import *
-from mqtt_tls import *
 from control import *
 from data import *
 #conn =  pyodbc.connect(
@@ -57,11 +62,8 @@ from data import *
 # url_1 = urlsheet.replace('/edit#gid=', '/export?format=csv&gid=')
 # sheetbase = pd.read_csv(url_1)
 
- 
-st.set_page_config(page_icon="random",
-    layout="wide",
-    initial_sidebar_state="expanded",
-    ) 
+
+
 
 
 
@@ -83,12 +85,19 @@ hide_streamlit_style = """
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 #showWarningOnDirectExecution = False
-          
+      
 if 'user' not in st.session_state:
     st.session_state.user = False
 if 'username' not in st.session_state:
     st.session_state.username = ""
 #stop()
+if 'run' not in st.session_state:
+    st.session_state.run = True
+if st.session_state.run:
+    start()
+    st.session_state.run = False
+
+
 with st.sidebar:
     choose = option_menu("BKLIGHT", ["Home", "Devices", "Controls", "Notifications", "Login"],
                          icons=['house', 'lightbulb', 'menu-button', 'bell','door-open'],
@@ -100,9 +109,12 @@ with st.sidebar:
         "nav-link-selected": {"background-color": "#02ab21"}
     }
     )
+    bt = st.button("Stop",key ="stop")
+    if bt:
+        stop()
+        st.session_state.run = True
 
 if choose == "Home":
-    
     
     html.html("""
     <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto%2F%3Ffbid%3D207126528879455%26set%3Dgm.6181781221870440%26idorvanity%3D1418821624833114&width=750&show_text=true&height=692&appId" width="750" height="692" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
@@ -119,15 +131,15 @@ elif choose == "Devices":
     if st.session_state.user:
         show()
     
-elif choose == "Notifications":
+elif choose == "Notifications": 
+    
     if st.session_state.user:
         
         get_noti()
           
         
-    #print("true")
     
-elif choose == "Controls":   
+elif choose == "Controls": 
     light = data.light.sort_values("id")
     if st.session_state.user:   
         st.header("All" + ":bulb:")
@@ -198,7 +210,7 @@ elif choose == "Controls":
 
         
    
-elif choose == "Login":          
+elif choose == "Login": 
         with st.form("Login"):            
             if not st.session_state.user:
                 st.title('Login Form')
@@ -208,10 +220,14 @@ elif choose == "Login":
                 submitted = st.form_submit_button("Login")
                 if (submitted or password) and username:                    
                     st.session_state.user = login(username, password)[0]
-                    st.session_state.username = login(username, password)[1]                    
-                    st.success('Logged in successfully!')
-                    
-                    st.experimental_rerun()
+                    if st.session_state.user:
+                        st.session_state.username = login(username, password)[1]                    
+                        st.success('Logged in successfully!')                   
+                        st.experimental_rerun()
+                    else :
+                        err = st.warning("Wrong username or password")
+                        time.sleep(3)
+                        err.empty()
                     
             else:                    
                     st.title("Welcome " +st.session_state.username)
