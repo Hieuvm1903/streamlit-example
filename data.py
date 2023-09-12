@@ -27,7 +27,7 @@ def get_noti():
     gate = gate.head(10)
     for i in gate.iterrows():
         if int(i[1].status) == 1:
-            st.warning("Node is dead at {}".format(i[1].time))
+            st.error("Node is dead at {}".format(i[1].time))
         
 
     
