@@ -1,6 +1,9 @@
 from supabase import create_client, Client
 import streamlit as st
 import pandas as pd
+import pytz
+import datetime
+
 url= "https://uzgwhrmgbnvebgshvkfi.supabase.co"
 key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6Z3docm1nYm52ZWJnc2h2a2ZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODgwNjU5NTgsImV4cCI6MjAwMzY0MTk1OH0.QogXPI4YOBnZTYTHeM5b1Zurnuu-VYsXmhRBssMW47c"
 supabase = create_client(url, key)
@@ -25,9 +28,13 @@ def get_noti():
     gate['time'] = pd.to_datetime(gate["time"])
     gate.sort_values(by='time',ascending=False)   
     gate = gate.head(10)
+    date_format = "%Y-%m-%d %H:%M:%S"
+    
+
     for i in gate.iterrows():
         if int(i[1].status) == 1:
-            st.error("Node is dead at {}".format(i[1].time))
+
+            st.error("Node was dead at {}".format(i[1].time))
         
 
     
