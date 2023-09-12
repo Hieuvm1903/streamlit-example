@@ -6,10 +6,10 @@ key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6
 supabase = create_client(url, key)
 
 def get_noti():
-    data = pd.DataFrame(supabase.table("Events").select("*").execute().data)
-    data['timestamp'] = pd.to_datetime(data["timestamp"])
-    data.sort_values(by='timestamp',ascending=False)   
-    st.write(data.head(5))
+    data1 = pd.DataFrame(supabase.table("Events").select("*").execute().data)
+    data1['timestamp'] = pd.to_datetime(data1["timestamp"])
+    data1.sort_values(by='timestamp',ascending=False)   
+    st.write(data1.head(5))
 
     node1 = pd.DataFrame(supabase.table("NodeDeath").select("*").execute().data)
     node1['time'] = pd.to_datetime(node1["time"])
