@@ -21,7 +21,7 @@ def get_noti():
         # Select the first row within each 'lampid' group (the one with the latest timestamp)
             latest_rows = sorted_df.groupby('lampid')[ 'timestamp'].idxmax()        
 
-            st.write(df.loc[latest_rows])
+            st.write(df.loc[latest_rows].set_index(['lampid']).drop(['id'],axis='columns'))
     with col2:
         gate = pd.DataFrame(supabase.table("GateAlive").select("*").execute().data)
         if (not gate.empty):

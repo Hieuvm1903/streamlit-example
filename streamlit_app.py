@@ -10,6 +10,8 @@ st.set_page_config(page_icon="random",
     )  
 from streamlit_option_menu import option_menu
 import streamlit.components.v1 as html
+from streamlit_autorefresh import st_autorefresh
+
 import numpy as np
 import pandas as pd
 from mqtt_tls import *
@@ -87,7 +89,9 @@ hide_streamlit_style = """
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 #showWarningOnDirectExecution = False
-      
+
+# update every 5 mins
+st_autorefresh(interval=5 * 60 * 1000, key="dataframerefresh")      
 if 'user' not in st.session_state:
     st.session_state.user = False
 if 'username' not in st.session_state:
