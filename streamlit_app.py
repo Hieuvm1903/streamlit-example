@@ -124,7 +124,9 @@ with st.sidebar:
         dt = datetime.datetime.combine(d,t)
         s = time.mktime(dt.timetuple())
         fake_time(s)
-    reload = st.button("reload",key = "reload",on_click= st.experimental_rerun())
+    reload = st.button("reload",key = "reload")
+    if reload:
+        st.experimental_rerun()
 
 if choose == "Home":
     
