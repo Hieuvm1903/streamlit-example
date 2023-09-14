@@ -160,7 +160,7 @@ elif choose == "Controls":
         keyAll = "sliderAll"    
         def bright_changeAll():  
            for i in data.light["id"]:          
-                bright_client("65535 "+ str(st.session_state["slider"+str(i)]))
+                bright_client(str(i)+" "+ str(st.session_state["slider"+str(i)]))
         def slide_change(value):
             st.session_state[keyAll] = value
         if keyAll not in st.session_state:
