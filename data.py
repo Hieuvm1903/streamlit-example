@@ -9,18 +9,28 @@ key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6
 supabase = create_client(url, key)
 
 def get_noti():
+    col1,col2 = st.columns(2)
+    with col1:
 
-    data1 = pd.DataFrame(supabase.table("Events").select("*").execute().data)
-    if  not data1.empty:
-        data1['timestamp'] = pd.to_datetime(data1["timestamp"])
-        print(max( data1['timestamp']))
-        df = data1.sort_values(by='timestamp',ascending=False)
-        sorted_df = df.sort_values(by=['lampid', 'timestamp'], ascending=[True, False])
+        data1 = pd.DataFrame(supabase.table("Events").select("*").execute().data)
+        if  not data1.empty:
+            data1['timestamp'] = pd.to_datetime(data1["timestamp"])
+            df = data1.sort_values(by='timestamp',ascending=False)
+            sorted_df = df.sort_values(by=['lampid', 'timestamp'], ascending=[True, False])
 
-    # Select the first row within each 'lampid' group (the one with the latest timestamp)
-        latest_rows = sorted_df.groupby('lampid')[ 'timestamp'].idxmax()        
+        # Select the first row within each 'lampid' group (the one with the latest timestamp)
+            latest_rows = sorted_df.groupby('lampid')[ 'timestamp'].idxmax()        
 
-        st.write(df.loc[latest_rows])
+            st.write(df.loc[latest_rows])
+    with col2:
+        gate = pd.DataFrame(supabase.table("GateAlive").select("*").execute().data)
+        if (not gate.empty):
+            gate['time'] = pd.to_datetime(gate["time"])
+            gate = gate.sort_values(by='time',ascending=False)   
+            datime = datetime.datetime.now().replace(tzinfo= None)
+            diff = datime - max(gate["time"]).replace(tzinfo= None)
+            if diff.total_seconds() >=600:
+                st.error("Gateway was dead at {}".format(gate["time"].max().strftime("%Y-%m-%d %I:%M:%S")))
 
 
     
@@ -39,14 +49,7 @@ def get_noti():
             elif int(i[1].status) == 1:
                 st.warning("Lamp {} is dead at {}: current too high".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
 
-    gate = pd.DataFrame(supabase.table("GateAlive").select("*").execute().data)
-    if (not gate.empty):
-        gate['time'] = pd.to_datetime(gate["time"])
-        gate = gate.sort_values(by='time',ascending=False)   
-        datime = datetime.datetime.now().replace(tzinfo= None)
-        diff = datime - max(gate["time"]).replace(tzinfo= None)
-        if diff.total_seconds() >=600:
-            st.error("Gateway was dead at {}".format(gate["time"].max().strftime("%Y-%m-%d %I:%M:%S")))
+    
                 
         
 

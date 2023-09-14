@@ -96,7 +96,7 @@ if 'username' not in st.session_state:
 if 'run' not in st.session_state:
     st.session_state.run = True
 if st.session_state.run:
-    start()
+    #start()
     st.session_state.run = False
 
 
@@ -111,10 +111,8 @@ with st.sidebar:
         "nav-link-selected": {"background-color": "#02ab21"}
     }
     )
-    bt = st.button("Stop",key ="stop")
-    if bt:
-        stop()
-        st.session_state.run = True
+    bt = st.button("Stop",key ="stop",on_click= stop)
+    startbtn = st.button("Start",on_click = start,key = 'start')   
     timefake = st.button(":clock1:" ,key = "faketimer")
     t = st.time_input('🕐Time',step = 300, key = 'faker')
     d = st.date_input('date',key = 'date')
