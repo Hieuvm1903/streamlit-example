@@ -27,24 +27,23 @@ def get_noti():
     if not node1.empty:
         node1['time'] = pd.to_datetime(node1["time"])
         node1 = node1.sort_values(by='time',ascending=False)   
-        node1 = node1.head(10)
-        
+        node1 = node1.head(10)      
         for i in node1.iterrows():    
             if int(i[1].status) == 0:
-                st.warning("Lamp {} is dead at {}: lost connection".format(i[1].address,i[1].time))
+                st.warning("Lamp {} is dead at {}: lost connection".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
+
             elif int(i[1].status) == 1:
-                st.warning("Lamp {} is dead at {}: current to low".format(i[1].address,i[1].time))
+                st.warning("Lamp {} is dead at {}: current to low".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
+
             elif int(i[1].status) == 1:
-                st.warning("Lamp {} is dead at {}: current too high".format(i[1].address,i[1].time))
+                st.warning("Lamp {} is dead at {}: current too high".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
 
     gate = pd.DataFrame(supabase.table("GateAlive").select("*").execute().data)
     if (not gate.empty):
         gate['time'] = pd.to_datetime(gate["time"])
         gate = gate.sort_values(by='time',ascending=False)   
         datime = datetime.datetime.now().replace(tzinfo= None)
-        print(datime)
         diff = datime - max(gate["time"]).replace(tzinfo= None)
-        print(gate["time"].max())
         if diff.total_seconds() >=600:
             st.error("Gateway was dead at {}".format(gate["time"].max().strftime("%Y-%m-%d %I:%M:%S")))
                 

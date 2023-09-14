@@ -70,6 +70,8 @@ def bright_client(s):
   client.publish("LED_Control/Dimming",s)
 def time_setting(s):
   client.publish("LED_Control/Set_Time",s)
+def fake_time(s):
+  client.publish("NODE_Fake_time",s)
 def start():
   client.loop_start()
 def stop():

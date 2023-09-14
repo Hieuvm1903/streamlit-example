@@ -2,6 +2,8 @@
 
 import pyodbc 
 import streamlit as st  
+import datetime
+import time
 st.set_page_config(page_icon="random",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -94,7 +96,7 @@ if 'username' not in st.session_state:
 if 'run' not in st.session_state:
     st.session_state.run = True
 if st.session_state.run:
-    start()
+    #start()
     st.session_state.run = False
 
 
@@ -113,6 +115,13 @@ with st.sidebar:
     if bt:
         stop()
         st.session_state.run = True
+    timefake = st.button(":clock1:" ,key = "faketimer")
+    t = st.time_input('🕐Time',step = 300, key = 'faker')
+    d = st.date_input('date',key = 'date')
+    if timefake:
+        dt = datetime.datetime.combine(d,t)
+        s = time.mktime(dt.timetuple())
+        fake_time(s)
 
 if choose == "Home":
     
