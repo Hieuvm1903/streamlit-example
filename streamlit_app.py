@@ -10,7 +10,7 @@ st.set_page_config(page_icon="random",
     )  
 from streamlit_option_menu import option_menu
 import streamlit.components.v1 as html
-from streamlit_autorefresh import st_autorefresh
+#from streamlit_autorefresh import st_autorefresh
 
 import numpy as np
 import pandas as pd
@@ -91,7 +91,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 #showWarningOnDirectExecution = False
 
 # update every 5 mins
-st_autorefresh(interval=5 * 60 * 1000, key="dataframerefresh")      
+#st_autorefresh(interval= 5 * 60 * 1000, key="dataframerefresh")      
 if 'user' not in st.session_state:
     st.session_state.user = False
 if 'username' not in st.session_state:
@@ -124,6 +124,7 @@ with st.sidebar:
         dt = datetime.datetime.combine(d,t)
         s = time.mktime(dt.timetuple())
         fake_time(s)
+    reload = st.button("reload",key = "reload",on_click= st.experimental_rerun())
 
 if choose == "Home":
     
