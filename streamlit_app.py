@@ -96,7 +96,7 @@ if 'username' not in st.session_state:
 if 'run' not in st.session_state:
     st.session_state.run = True
 if st.session_state.run:
-    #start()
+    start()
     st.session_state.run = False
 
 

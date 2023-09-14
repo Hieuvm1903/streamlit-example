@@ -13,14 +13,15 @@ def get_noti():
     data1 = pd.DataFrame(supabase.table("Events").select("*").execute().data)
     if  not data1.empty:
         data1['timestamp'] = pd.to_datetime(data1["timestamp"])
+        print(max( data1['timestamp']))
         df = data1.sort_values(by='timestamp',ascending=False)
         sorted_df = df.sort_values(by=['lampid', 'timestamp'], ascending=[True, False])
 
     # Select the first row within each 'lampid' group (the one with the latest timestamp)
-        latest_rows = sorted_df.groupby('lampid').head(1)
-        
+        latest_rows = sorted_df.groupby('lampid')[ 'timestamp'].idxmax()        
 
-        st.write(latest_rows)
+        st.write(df.loc[latest_rows])
+
 
     
     node1 = pd.DataFrame(supabase.table("NodeDeath").select("*").execute().data)
