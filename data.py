@@ -30,18 +30,24 @@ def get_noti():
         node1 = node1.head(10)
         
         for i in node1.iterrows():    
-            if int(i[1].status) == 1:
-                st.warning("Lamp {} is dead at {}".format(i[1].address,i[1].time))
-
+            if int(i[1].status) == 0:
+                st.warning("Lamp {} is dead at {}: lost connection".format(i[1].address,i[1].time))
+            elif int(i[1].status) == 1:
+                st.warning("Lamp {} is dead at {}: current to low".format(i[1].address,i[1].time))
+            elif int(i[1].status) == 1:
+                st.warning("Lamp {} is dead at {}: current too high".format(i[1].address,i[1].time))
 
     gate = pd.DataFrame(supabase.table("GateAlive").select("*").execute().data)
     if (not gate.empty):
         gate['time'] = pd.to_datetime(gate["time"])
         gate = gate.sort_values(by='time',ascending=False)   
-        gate = gate.head(10)
-        for i in gate.iterrows():
-            if int(i[1].status) == 1:
-                st.error("Gateway was dead at {}".format(i[1].time))
+        datime = datetime.datetime.now().replace(tzinfo= None)
+        print(datime)
+        diff = datime - max(gate["time"]).replace(tzinfo= None)
+        print(gate["time"].max())
+        if diff.total_seconds() >=600:
+            st.error("Gateway was dead at {}".format(gate["time"].max().strftime("%Y-%m-%d %I:%M:%S")))
+                
         
 
     
