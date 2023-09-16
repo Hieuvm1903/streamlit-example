@@ -115,16 +115,20 @@ with st.sidebar:
         "nav-link-selected": {"background-color": "#02ab21"}
     }
     )
-    bt = st.button("Stop",key ="stop",on_click= stop)
-    startbtn = st.button("Start",on_click = start,key = 'start')   
-    timefake = st.button(":clock1:" ,key = "faketimer")
+    col1,col2 = st.columns(2)
+    with col1:
+        bt = st.button("Stop",key ="stop",on_click= stop)
+        timefake = st.button(":clock1:" ,key = "faketimer")
+    with col2:
+        startbtn = st.button("Start",on_click = start,key = 'start') 
+        reload = st.button("reload",key = "reload")
     t = st.time_input('🕐Time',step = 300, key = 'faker')
     d = st.date_input('date',key = 'date')
     if timefake:
-        dt = datetime.datetime.combine(d,t)
+        dt = datetime.datetime.combine(d,t, tzinfo= pytz.timezone("Asia/Ho_Chi_Minh"))
         s = time.mktime(dt.timetuple())
         fake_time(s)
-    reload = st.button("reload",key = "reload")
+    
     if reload:
         st.experimental_rerun()
 
@@ -144,12 +148,16 @@ if choose == "Home":
 elif choose == "Devices":
     if st.session_state.user:
         show()
+    else:
+        st.warning("Please login first!!!")
     
 elif choose == "Notifications": 
     
     if st.session_state.user:
         
         get_noti()
+    else:
+        st.warning("Please login first!!!")
           
         
     
@@ -219,6 +227,8 @@ elif choose == "Controls":
                         control_generate(int(l.id))
                     if j == b:
                         break
+    else:
+        st.warning("Please login first!!!")
                     
                     
 
