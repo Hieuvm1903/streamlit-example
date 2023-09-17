@@ -43,9 +43,9 @@ def get_noti():
         node1 = node1.sort_values(by='time',ascending=False)   
         node1 = node1.head(10)      
         for i in node1.iterrows():    
-
+            dt = i[1].time.astimezone(tz=timezone)
             if int(i[1].status) == 0:
-                st.warning("Lamp {} is dead at {}: lost connection".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
+                st.warning("Lamp {} is dead at {}: lost connection".format(i[1].address,dt.strftime("%Y-%m-%d %I:%M:%S")))
 
             elif int(i[1].status) == 1:
                 st.warning("Lamp {} is dead at {}: current to low".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
