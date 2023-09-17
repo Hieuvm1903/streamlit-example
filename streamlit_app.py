@@ -127,12 +127,10 @@ with st.sidebar:
     if timefake:
         dt = datetime.datetime.combine(d,t, tzinfo= pytz.utc)
         s = time.mktime(dt.timetuple())
-        print(s)
         fake_time(s)
     
     if reload:
         st.experimental_rerun()
-
 if choose == "Home":
     
     html.html("""
@@ -166,7 +164,7 @@ elif choose == "Controls":
         keyAll = "sliderAll"    
         def bright_changeAll():  
            for i in data.light["id"]:          
-                bright_client(str(i)+" "+ str(st.session_state["slider"+str(i)]))
+                bright_client(str(i)+" "+ str(st.session_state[keyAll]))
         def slide_change(value):
             st.session_state[keyAll] = value
         if keyAll not in st.session_state:
