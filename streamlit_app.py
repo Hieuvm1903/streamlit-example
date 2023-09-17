@@ -121,7 +121,7 @@ with st.sidebar:
         timefake = st.button(":clock1:" ,key = "faketimer")
     with col2:
         startbtn = st.button("Start",on_click = start,key = 'start') 
-        reload = st.button("reload",key = "reload")
+        reload = st.button("Reload",key = "reload")
     t = st.time_input('🕐Time',step = 300, key = 'faker')
     d = st.date_input('date',key = 'date')
     if timefake:
