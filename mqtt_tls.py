@@ -23,7 +23,7 @@ def on_connect(client, userdata, flags, rc):
   client.subscribe("temp/esp32")
 def on_message(client,userdata,msg):
 
-  #print(str(msg.payload.decode("utf-8")))
+  print(str(msg.payload.decode("utf-8")))
   string = str(msg.payload.decode("utf-8")).split(" ")
   
   if msg.topic == "LED_Data":
@@ -34,8 +34,6 @@ def on_message(client,userdata,msg):
     dimming = int(string[3])
     flow = int(string[4])
     fake_time = datetime.strptime(timed,"%Y-%m-%d %H:%M:%S %z").replace(tzinfo= timezone)-datetime.now().astimezone(tz= timezone)
-    print(datetime.strptime(timed,"%Y-%m-%d %H:%M:%S %z").replace(tzinfo= timezone))
-    print(fake_time.total_seconds())
     if abs(fake_time.total_seconds())>=3600:
       data.supabase.table("Fake").insert({"lampid" :lampid,"timestamp": timed,"state":state,"dimming":dimming,"flow":flow }).execute()
     else:
