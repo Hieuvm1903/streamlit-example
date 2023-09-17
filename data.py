@@ -58,13 +58,13 @@ def get_noti():
         for i in node1.iterrows():    
             dt = i[1].time.astimezone(tz=timezone)
             if int(i[1].status) == 0:
-                st.warning("Lamp {} is dead at {}: lost connection".format(i[1].address,dt.strftime("%Y-%m-%d %I:%M:%S")))
+                st.warning("Lamp {} was dead at {}: lost connection".format(i[1].address,dt.strftime("%Y-%m-%d %I:%M:%S")))
 
             elif int(i[1].status) == 1:
-                st.warning("Lamp {} is dead at {}: current to low".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
+                st.warning("Lamp {} was dead at {}: current to low".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
 
             elif int(i[1].status) == 1:
-                st.warning("Lamp {} is dead at {}: current too high".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
+                st.warning("Lamp {} was dead at {}: current too high".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
 
     
                 
