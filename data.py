@@ -22,7 +22,7 @@ def get_noti():
 
         # Select the first row within each 'lampid' group (the one with the latest timestamp)
             latest_rows = sorted_df.groupby('lampid')[ 'timestamp'].idxmax()        
-
+            st.title('Real Data')
             st.write(df.loc[latest_rows].set_index(['lampid']).drop(['id'],axis='columns'))
     with col2:
         fake = pd.DataFrame(supabase.table("Fake").select("*").execute().data)
@@ -35,7 +35,7 @@ def get_noti():
 
         # Select the first row within each 'lampid' group (the one with the latest timestamp)
             latest_rows = sorted_df.groupby('lampid')[ 'timestamp'].idxmax()        
-
+            st.title('Demo Data')
             st.write(df.loc[latest_rows].set_index(['lampid']).drop(['id'],axis='columns'))
 
 
