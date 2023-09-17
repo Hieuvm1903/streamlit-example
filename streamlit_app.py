@@ -127,6 +127,7 @@ with st.sidebar:
     if timefake:
         dt = datetime.datetime.combine(d,t, tzinfo= pytz.utc)
         s = time.mktime(dt.timetuple())
+        print(s)
         fake_time(s)
     
     if reload:
