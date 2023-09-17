@@ -7,14 +7,16 @@ import datetime
 url= "https://uzgwhrmgbnvebgshvkfi.supabase.co"
 key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6Z3docm1nYm52ZWJnc2h2a2ZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODgwNjU5NTgsImV4cCI6MjAwMzY0MTk1OH0.QogXPI4YOBnZTYTHeM5b1Zurnuu-VYsXmhRBssMW47c"
 supabase = create_client(url, key)
-
+timezone = pytz.timezone("Asia/Ho_Chi_Minh")  # Replace with your desired timezone
 def get_noti():
     col1,col2 = st.columns(2)
     with col1:
 
         data1 = pd.DataFrame(supabase.table("Events").select("*").execute().data)
         if  not data1.empty:
+            
             data1['timestamp'] = pd.to_datetime(data1["timestamp"])
+            data1['timestamp'] = data1.apply(lambda row: row['timestamp'].astimezone(timezone), axis = 1)
             df = data1.sort_values(by='timestamp',ascending=False)
             sorted_df = df.sort_values(by=['lampid', 'timestamp'], ascending=[True, False])
 
@@ -27,10 +29,11 @@ def get_noti():
         if (not gate.empty):
             gate['time'] = pd.to_datetime(gate["time"])
             gate = gate.sort_values(by='time',ascending=False)   
-            datime = datetime.datetime.now().replace(tzinfo= None)
-            diff = datime - max(gate["time"]).replace(tzinfo= None)
-            if diff.total_seconds() >=600:
-                st.error("Gateway was dead at {}".format(gate["time"].max().strftime("%Y-%m-%d %I:%M:%S")))
+            datime = datetime.datetime.now().astimezone(tz= timezone)
+            maxtime = max(gate["time"]).astimezone(tz = timezone)
+            diff = datime - maxtime
+            if diff.total_seconds() >=60:
+                st.error("Gateway was dead at {}".format(maxtime.strftime("%Y-%m-%d %I:%M:%S")))
 
 
     
@@ -40,6 +43,7 @@ def get_noti():
         node1 = node1.sort_values(by='time',ascending=False)   
         node1 = node1.head(10)      
         for i in node1.iterrows():    
+
             if int(i[1].status) == 0:
                 st.warning("Lamp {} is dead at {}: lost connection".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
 

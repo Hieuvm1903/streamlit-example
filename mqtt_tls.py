@@ -8,10 +8,12 @@ import pytz
 
 def parsetime(timestamp):
   timezone = pytz.timezone("Asia/Ho_Chi_Minh")  # Replace with your desired timezone
-  timestamp_datetime = datetime.fromtimestamp(timestamp, tz=timezone)
-  localized_datetime = timestamp_datetime.replace(tzinfo=timezone)
+  timestamp_datetime = datetime.fromtimestamp(timestamp, tz=pytz.utc)
+  
+  localized_datetime = timestamp_datetime.astimezone(tz=timezone)
+  formatted_datetime = localized_datetime.strftime("%Y-%m-%d %H:%M:%S %z")
+ 
 
-  formatted_datetime = localized_datetime.strftime("%Y-%m-%d %I:%M:%S %p")
   return formatted_datetime
 def on_connect(client, userdata, flags, rc):
   if rc==0:
@@ -20,20 +22,22 @@ def on_connect(client, userdata, flags, rc):
     print("connection failed with rc: "+ str(rc))
   client.subscribe("temp/esp32")
 def on_message(client,userdata,msg):
-  print(str(msg.payload.decode("utf-8")))
+  #print(str(msg.payload.decode("utf-8")))
   string = str(msg.payload.decode("utf-8")).split(" ")
   
   if msg.topic == "LED_Data":
     
     lampid = int(string[0])
     timed = parsetime(int(string[1]))
+    
     state = int(string[2])
     dimming = int(string[3])
     flow = int(string[4])
     data.supabase.table("Events").insert({"lampid" :lampid,"timestamp": timed,"state":state,"dimming":dimming,"flow":flow }).execute()
   elif msg.topic == "Node_Dead":
     #timed = timezone.localize(datetime.utcfromtimestamp(int(string[0])).strftime('%Y-%m-%d %H:%M:%S'))
-    times = parsetime(int(string[0]))   
+    times = parsetime(int(string[0])) 
+    print(times)  
     lampid = int(string[1])
     status = int(string[2])
     data.supabase.table("NodeDeath").insert({"time": times,"address":lampid,"status":status}).execute()   
