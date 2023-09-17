@@ -32,7 +32,7 @@ def get_noti():
             datime = datetime.datetime.now().astimezone(tz= timezone)
             maxtime = max(gate["time"]).astimezone(tz = timezone)
             diff = datime - maxtime
-            if diff.total_seconds() >=60:
+            if diff.total_seconds() >=120:
                 st.error("Gateway was dead at {}".format(maxtime.strftime("%Y-%m-%d %I:%M:%S")))
 
 

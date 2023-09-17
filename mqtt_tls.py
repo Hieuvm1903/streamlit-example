@@ -22,7 +22,7 @@ def on_connect(client, userdata, flags, rc):
     print("connection failed with rc: "+ str(rc))
   client.subscribe("temp/esp32")
 def on_message(client,userdata,msg):
-  #print(str(msg.payload.decode("utf-8")))
+  print(str(msg.payload.decode("utf-8")))
   string = str(msg.payload.decode("utf-8")).split(" ")
   
   if msg.topic == "LED_Data":
@@ -37,12 +37,12 @@ def on_message(client,userdata,msg):
   elif msg.topic == "Node_Dead":
     #timed = timezone.localize(datetime.utcfromtimestamp(int(string[0])).strftime('%Y-%m-%d %H:%M:%S'))
     times = parsetime(int(string[0])) 
-    print(times)  
     lampid = int(string[1])
     status = int(string[2])
     data.supabase.table("NodeDeath").insert({"time": times,"address":lampid,"status":status}).execute()   
   elif msg.topic == "Gateway_Alive":
     timed = parsetime(int(string[0]))
+    
     node = int(string[1])
     data.supabase.table("GateAlive").insert({"time": timed,"status":node}).execute()
       
