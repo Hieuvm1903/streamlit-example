@@ -8,8 +8,8 @@ import pytz
 
 def parsetime(timestamp):
   timezone = pytz.timezone("Asia/Ho_Chi_Minh")  # Replace with your desired timezone
-  timestamp_datetime = datetime.fromtimestamp(timestamp, tz=pytz.utc)
-  localized_datetime = timestamp_datetime.replace(tzinfo=pytz.utc).astimezone(timezone)
+  timestamp_datetime = datetime.fromtimestamp(timestamp, tz=timezone)
+  localized_datetime = timestamp_datetime.replace(tzinfo=timezone)
 
   formatted_datetime = localized_datetime.strftime("%Y-%m-%d %I:%M:%S %p")
   return formatted_datetime

@@ -125,12 +125,12 @@ with st.sidebar:
     t = st.time_input('🕐Time',step = 300, key = 'faker')
     d = st.date_input('date',key = 'date')
     if timefake:
-        dt = datetime.datetime.combine(d,t, tzinfo= pytz.timezone("Asia/Ho_Chi_Minh"))
+        dt = datetime.datetime.combine(d,t, tzinfo= pytz.utc)
         s = time.mktime(dt.timetuple())
         fake_time(s)
     
     if reload:
-        st.experimental_rerun()
+        st.rerun()
 
 if choose == "Home":
     
@@ -157,10 +157,7 @@ elif choose == "Notifications":
         
         get_noti()
     else:
-        st.warning("Please login first!!!")
-          
-        
-    
+        st.warning("Please login first!!!")           
 elif choose == "Controls": 
     light = data.light.sort_values("id")
     if st.session_state.user:   
@@ -247,7 +244,7 @@ elif choose == "Login":
                     if st.session_state.user:
                         st.session_state.username = login(username, password)[1]                    
                         st.success('Logged in successfully!')                   
-                        st.experimental_rerun()
+                        st.rerun()
                     else :
                         err = st.warning("Wrong username or password")
                         time.sleep(3)
@@ -260,7 +257,7 @@ elif choose == "Login":
                         st.session_state.user = False
                         st.session_state.username = ""
                         
-                        st.experimental_rerun()
+                        st.rerun()
 
 
 
