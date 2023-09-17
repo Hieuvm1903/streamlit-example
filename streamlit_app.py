@@ -130,7 +130,7 @@ with st.sidebar:
         fake_time(s)
     
     if reload:
-        st.rerun()
+        st.experimental_rerun()
 
 if choose == "Home":
     
@@ -244,7 +244,7 @@ elif choose == "Login":
                     if st.session_state.user:
                         st.session_state.username = login(username, password)[1]                    
                         st.success('Logged in successfully!')                   
-                        st.rerun()
+                        st.experimental_rerun()
                     else :
                         err = st.warning("Wrong username or password")
                         time.sleep(3)
@@ -257,7 +257,7 @@ elif choose == "Login":
                         st.session_state.user = False
                         st.session_state.username = ""
                         
-                        st.rerun()
+                        st.experimental_rerun()
 
 
 
