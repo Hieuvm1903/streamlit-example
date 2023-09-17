@@ -48,7 +48,7 @@ def get_noti():
             maxtime = max(gate["time"]).astimezone(tz = timezone)
             diff = datime - maxtime
             if diff.total_seconds() >=120:
-                st.error("Gateway was dead at {}".format(maxtime.strftime("%Y-%m-%d %H:%M:%S %z")))
+                st.error("Gateway was dead at {}".format(maxtime.strftime("%Y-%m-%d %H:%M:%S %Z")))
     
     node1 = pd.DataFrame(supabase.table("NodeDeath").select("*").execute().data)
     if not node1.empty:
