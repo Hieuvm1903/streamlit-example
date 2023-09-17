@@ -61,7 +61,7 @@ def get_noti():
                 st.warning("Lamp {} was dead at {}: lost connection".format(i[1].address,dt.strftime("%Y-%m-%d %I:%M:%S")))
 
             elif int(i[1].status) == 1:
-                st.warning("Lamp {} was dead at {}: current to low".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
+                st.warning("Lamp {} was dead at {}: current too low".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
 
             elif int(i[1].status) == 1:
                 st.warning("Lamp {} was dead at {}: current too high".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
