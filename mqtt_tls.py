@@ -5,9 +5,9 @@ import ssl
 import data
 import streamlit as st
 import pytz
-
+timezone = pytz.timezone("Asia/Ho_Chi_Minh")  # Replace with your desired timezone
 def parsetime(timestamp):
-  timezone = pytz.timezone("Asia/Ho_Chi_Minh")  # Replace with your desired timezone
+  
   timestamp_datetime = datetime.fromtimestamp(timestamp, tz=pytz.utc)
   
   localized_datetime = timestamp_datetime.astimezone(tz=timezone)
@@ -22,18 +22,24 @@ def on_connect(client, userdata, flags, rc):
     print("connection failed with rc: "+ str(rc))
   client.subscribe("temp/esp32")
 def on_message(client,userdata,msg):
-  print(str(msg.payload.decode("utf-8")))
+
+  #print(str(msg.payload.decode("utf-8")))
   string = str(msg.payload.decode("utf-8")).split(" ")
   
   if msg.topic == "LED_Data":
     
     lampid = int(string[0])
     timed = parsetime(int(string[1]))
-    
     state = int(string[2])
     dimming = int(string[3])
     flow = int(string[4])
-    data.supabase.table("Events").insert({"lampid" :lampid,"timestamp": timed,"state":state,"dimming":dimming,"flow":flow }).execute()
+    fake_time = datetime.strptime(timed,"%Y-%m-%d %H:%M:%S %z").replace(tzinfo= timezone)-datetime.now().astimezone(tz= timezone)
+    print(datetime.strptime(timed,"%Y-%m-%d %H:%M:%S %z").replace(tzinfo= timezone))
+    print(fake_time.total_seconds())
+    if abs(fake_time.total_seconds())>=3600:
+      data.supabase.table("Fake").insert({"lampid" :lampid,"timestamp": timed,"state":state,"dimming":dimming,"flow":flow }).execute()
+    else:
+      data.supabase.table("Events").insert({"lampid" :lampid,"timestamp": timed,"state":state,"dimming":dimming,"flow":flow }).execute()
   elif msg.topic == "Node_Dead":
     #timed = timezone.localize(datetime.utcfromtimestamp(int(string[0])).strftime('%Y-%m-%d %H:%M:%S'))
     times = parsetime(int(string[0])) 
@@ -42,7 +48,7 @@ def on_message(client,userdata,msg):
     data.supabase.table("NodeDeath").insert({"time": times,"address":lampid,"status":status}).execute()   
   elif msg.topic == "Gateway_Alive":
     timed = parsetime(int(string[0]))
-    
+  
     node = int(string[1])
     data.supabase.table("GateAlive").insert({"time": timed,"status":node}).execute()
       

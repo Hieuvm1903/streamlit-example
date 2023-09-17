@@ -25,6 +25,21 @@ def get_noti():
 
             st.write(df.loc[latest_rows].set_index(['lampid']).drop(['id'],axis='columns'))
     with col2:
+        fake = pd.DataFrame(supabase.table("Fake").select("*").execute().data)
+        if  not fake.empty:
+            
+            fake['timestamp'] = pd.to_datetime(fake["timestamp"])
+            fake['timestamp'] = data1.apply(lambda row: row['timestamp'].astimezone(timezone), axis = 1)
+            df = fake.sort_values(by='timestamp',ascending=False)
+            sorted_df = df.sort_values(by=['lampid', 'timestamp'], ascending=[True, False])
+
+        # Select the first row within each 'lampid' group (the one with the latest timestamp)
+            latest_rows = sorted_df.groupby('lampid')[ 'timestamp'].idxmax()        
+
+            st.write(df.loc[latest_rows].set_index(['lampid']).drop(['id'],axis='columns'))
+
+
+
         gate = pd.DataFrame(supabase.table("GateAlive").select("*").execute().data)
         if (not gate.empty):
             gate['time'] = pd.to_datetime(gate["time"])
@@ -34,8 +49,6 @@ def get_noti():
             diff = datime - maxtime
             if diff.total_seconds() >=120:
                 st.error("Gateway was dead at {}".format(maxtime.strftime("%Y-%m-%d %I:%M:%S")))
-
-
     
     node1 = pd.DataFrame(supabase.table("NodeDeath").select("*").execute().data)
     if not node1.empty:
