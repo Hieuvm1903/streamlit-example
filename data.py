@@ -48,7 +48,7 @@ def get_noti():
             maxtime = max(gate["time"]).astimezone(tz = timezone)
             diff = datime - maxtime
             if diff.total_seconds() >=120:
-                st.error("Gateway was dead at {}".format(maxtime.strftime("%Y-%m-%d %I:%M:%S")))
+                st.error("Gateway was dead at {}".format(maxtime.strftime("%Y-%m-%d %I:%M:%S %z")))
     
     node1 = pd.DataFrame(supabase.table("NodeDeath").select("*").execute().data)
     if not node1.empty:
@@ -58,13 +58,13 @@ def get_noti():
         for i in node1.iterrows():    
             dt = i[1].time.astimezone(tz=timezone)
             if int(i[1].status) == 0:
-                st.warning("Lamp {} was dead at {}: lost connection".format(i[1].address,dt.strftime("%Y-%m-%d %I:%M:%S")))
+                st.warning("Lamp {} was dead at {}: lost connection".format(i[1].address,dt.strftime("%Y-%m-%d %I:%M:%S %z")))
 
             elif int(i[1].status) == 1:
-                st.warning("Lamp {} was dead at {}: current too low".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
+                st.warning("Lamp {} was dead at {}: current too low".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S %z")))
 
             elif int(i[1].status) == 1:
-                st.warning("Lamp {} was dead at {}: current too high".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S")))
+                st.warning("Lamp {} was dead at {}: current too high".format(i[1].address,i[1].time.strftime("%Y-%m-%d %I:%M:%S %z")))
 
     
                 
