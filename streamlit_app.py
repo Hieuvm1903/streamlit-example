@@ -123,7 +123,7 @@ with st.sidebar:
         startbtn = st.button("Start",on_click = start,key = 'start') 
         reload = st.button("Reload",key = "reload")
     t = st.time_input('🕐Time',step = 300, key = 'faker',value=datetime.datetime.now().astimezone(timezone))
-    d = st.date_input('date',key = 'date')
+    d = st.date_input('date',key = 'date',value=datetime.datetime.now().astimezone(timezone))
     if timefake:
         dt = datetime.datetime.combine(d,t, tzinfo= pytz.utc)
         s = time.mktime(dt.timetuple())
