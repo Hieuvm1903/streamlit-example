@@ -29,7 +29,7 @@ def get_noti():
         if  not fake.empty:
             
             fake['timestamp'] = pd.to_datetime(fake["timestamp"])
-            fake['timestamp'] = data1.apply(lambda row: row['timestamp'].astimezone(timezone), axis = 1)
+            fake['timestamp'] = fake.apply(lambda row: row['timestamp'].astimezone(timezone), axis = 1)
             df = fake.sort_values(by='timestamp',ascending=False)
             sorted_df = df.sort_values(by=['lampid', 'timestamp'], ascending=[True, False])
 
