@@ -120,7 +120,9 @@ with st.sidebar:
         bt = st.button("Stop",key ="stop",on_click= stop)
         timefake = st.button(":clock1:" ,key = "faketimer")
     with col2:
-        startbtn = st.button("Start",on_click = start,key = 'start') 
+        startbtn = st.button("Start",key = 'start') 
+        if startbtn:
+            start()
         reload = st.button("Reload",key = "reload")
     t = st.time_input('🕐Time',step = 300, key = 'faker',value=datetime.datetime.now().astimezone(timezone))
     d = st.date_input('date',key = 'date',value=datetime.datetime.now().astimezone(timezone))
