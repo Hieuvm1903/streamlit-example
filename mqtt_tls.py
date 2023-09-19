@@ -53,6 +53,10 @@ def on_message(client,userdata,msg):
 ca_cert = "ca.crt"   
 broker_address = "xemdoan2408.duckdns.org"
 broker_port = 1234  
+
+temp_broker = "broker.emqx.io"
+temp_port = 1883
+
 topic_to_subscribe = "LED_Data"
 client=mqtt.Client()
 

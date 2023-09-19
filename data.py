@@ -63,7 +63,7 @@ def get_noti():
             elif int(i[1].status) == 1:
                 st.warning("Lamp {} was dead at {}: current too low".format(i[1].address,i[1].time.strftime("%Y-%m-%d %H:%M:%S %Z")))
 
-            elif int(i[1].status) == 1:
+            elif int(i[1].status) == 2:
                 st.warning("Lamp {} was dead at {}: current too high".format(i[1].address,i[1].time.strftime("%Y-%m-%d %H:%M:%S %Z")))
 
     
