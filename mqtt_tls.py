@@ -38,6 +38,7 @@ def on_message(client,userdata,msg):
       data.supabase.table("Fake").insert({"lampid" :lampid,"timestamp": timed,"state":state,"dimming":dimming,"flow":flow }).execute()
     else:
       data.supabase.table("Events").insert({"lampid" :lampid,"timestamp": timed,"state":state,"dimming":dimming,"flow":flow }).execute()
+      data.supabase.table("Light").update({'bright':dimming}).eq('id',lampid).execute()
   elif msg.topic == "Node_Dead":
     #timed = timezone.localize(datetime.utcfromtimestamp(int(string[0])).strftime('%Y-%m-%d %H:%M:%S'))
     times = parsetime(int(string[0])) 
