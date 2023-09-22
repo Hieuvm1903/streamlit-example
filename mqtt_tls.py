@@ -61,8 +61,8 @@ temp_port = 1883
 topic_to_subscribe = "LED_Data"
 client=mqtt.Client()
 
-client.tls_set(ca_certs=ca_cert,tls_version=ssl.PROTOCOL_TLSv1_2)
-client.tls_insecure_set(True)
+#client.tls_set(ca_certs=ca_cert,tls_version=ssl.PROTOCOL_TLSv1_2)
+#client.tls_insecure_set(True)
 
 client.on_connect = on_connect
 client.on_message = on_message
@@ -70,7 +70,7 @@ client.on_message = on_message
 t = True
 
 try :
-    client.connect(broker_address,port=broker_port)
+    client.connect(temp_broker,port=temp_port)
     t = False
 except:
     pass  
