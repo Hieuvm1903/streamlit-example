@@ -123,6 +123,7 @@ with st.sidebar:
         startbtn = st.button("Start",key = 'start') 
         if startbtn:
             start()
+            print("start")
         reload = st.button("Reload",key = "reload")
     t = st.time_input('🕐Time',step = 300, key = 'faker',value=datetime.datetime.now().astimezone(timezone))
     d = st.date_input('date',key = 'date',value=datetime.datetime.now().astimezone(timezone))
