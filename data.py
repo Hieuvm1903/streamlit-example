@@ -72,4 +72,5 @@ def get_noti():
 
     
 light =  pd.DataFrame(supabase.table("Light").select("*").execute().data)
+
         
